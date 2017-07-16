@@ -20,18 +20,10 @@ public class PlayerStats : MonoBehaviour
 	public float maxCharge;
 	public float curCharge;
 	bool oldTriggerHeld = false;
+	public HUDManager hudManager;
 
 	//checks if player is dead
 	bool isDead = false;
-
-	//text variables
-	public Text healthTXT;
-	public Text virusTXT;
-	public Text healthRatioTXT;
-	public Text virusRatioTXT;
-	public Text leftArmValueTXT;
-	public Text leftArmRatioTXT;
-	public Text leftArmAbilityTXT;
 
 	//Material Variables
 	public Material baseMaterial;
@@ -44,6 +36,8 @@ public class PlayerStats : MonoBehaviour
 	public int itemIndex;
 	public Transform weaponAttachmentPoint;
 
+	private PlayerAnimController playerAnim;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -55,6 +49,9 @@ public class PlayerStats : MonoBehaviour
 		listOfWeapons [itemIndex].SetActive (true);
 		curArmSkill = getAbilityatIndex (skillIndex);
 		charMaterial = GameObject.FindGameObjectWithTag ("Material Tester").GetComponent<Renderer>().material;
+		hudManager = GameObject.FindGameObjectWithTag ("Game HUD").GetComponent<HUDManager> ();
+		hudManager.setAbilityIcon (skillIndex);
+		playerAnim = GetComponent<PlayerAnimController> ();
 	}
 	
 	// Update is called once per frame
@@ -63,17 +60,10 @@ public class PlayerStats : MonoBehaviour
 		//checks if the player is dead
 		if (!isDead) 
 		{
-			//updates the text displays with the values of thier corresponding player stat
-			healthTXT.text = health.ToString ();
-			virusTXT.text = virusAmt.ToString ();
-			healthRatioTXT.text = getHealthRatio ().ToString();
-			virusRatioTXT.text = getVirusRatio ().ToString();
-			leftArmValueTXT.text = curCharge.ToString ();
-			leftArmRatioTXT.text = getLeftArmChargeRatio ().ToString();
-			leftArmAbilityTXT.text = curArmSkill;
 
 			//deducts from the virus total in real time divided by 2
 			adjVirusAmt (-Time.deltaTime / 2);
+			adjLeftArmCharge (-Time.deltaTime);
 
 			//When the player hits RB it will disable the current weapon and enable the next weapon going up in the array
 			if (Input.GetButtonDown ("Weapon Toggle Right")) 
@@ -124,16 +114,12 @@ public class PlayerStats : MonoBehaviour
 		if (health > maxHealth)
 			health = maxHealth;
 
-		//updates health text display
-		healthTXT.text = health.ToString();
 
 		//checks if player health is 0
 		if (health <= 0) 
 		{
 			//if the value drops below 0 set it to 0
 			health = 0; 
-			//update health text
-			healthTXT.text = health.ToString();
 			//call death function
 			Die ();
 		}
@@ -157,6 +143,7 @@ public class PlayerStats : MonoBehaviour
 	private void Die()
 	{
 		isDead = true;
+		playerAnim.setIsDead ();
 		//Application.Quit ();
 	}
 		
@@ -168,8 +155,6 @@ public class PlayerStats : MonoBehaviour
 		{
 			//if the virus amount is below 0 set it to 0
 			virusAmt = 0;
-			//updates the virus display
-			virusTXT.text = virusAmt.ToString ();
 			//calls adjHealth function to deduct from health in real time
 			adjHealth (-Time.deltaTime);
 		} 
@@ -178,9 +163,6 @@ public class PlayerStats : MonoBehaviour
 			//if there is virus left this adjust the amount
 			virusAmt += adj;
 		}
-	
-		//updates virus display text
-		virusTXT.text = virusAmt.ToString ();
 
 		//if the adjusted virus amount is more than the maximum set the virus amount to the maximum
 		if (virusAmt > maxVirusAmt)
@@ -278,9 +260,12 @@ public class PlayerStats : MonoBehaviour
 		//increase skill index
 		skillIndex++;
 
+
 		//checks if skill index is out of range and sets it to zero if it is
 		if (skillIndex > listOfArmSkills.Length - 1)
 			skillIndex = 0;
+
+		hudManager.setAbilityIcon (skillIndex);
 
 		//return the arm ability at the new skill index
 		return getAbilityatIndex (skillIndex);

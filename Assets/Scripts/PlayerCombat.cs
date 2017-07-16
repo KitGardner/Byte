@@ -17,7 +17,6 @@ public class PlayerCombat : MonoBehaviour
 			normHeavyAttack = normYAttack;
 			transitionLightAttack = tranXAttack;
 			transitionHeavyAttack = tranYAttack;
-			print ("Loaded animations");
 		}
 
 		public string GetAttackAnimation(string pressedButton)

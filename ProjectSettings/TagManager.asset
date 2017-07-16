@@ -8,6 +8,7 @@ TagManager:
   - Camera Anchor
   - Weapon Attach
   - Material Tester
+  - Game HUD
   layers:
   - Default
   - TransparentFX

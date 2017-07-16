@@ -75,10 +75,12 @@ public class PlayerMovement : MonoBehaviour
 		if (Physics.Raycast (transform.position, Vector3.down, 1.05f)) 
 		{
 			isGrounded = true;
+			playerAnim.setIsGrounded (true);
 		} 
 		else 
 		{
 			isGrounded = false;
+			playerAnim.setIsGrounded (false);
 		}
 		//store the axis values of the controller left joystick
 		horizontal = Input.GetAxis ("Gamepad Horizontal");
@@ -185,19 +187,19 @@ public class PlayerMovement : MonoBehaviour
 	void Dodge()
 	{
 		//checks if the dodge button has been pressed
-		if (Input.GetButtonDown("Gamepad B")) 
+		if (Input.GetButtonDown("Gamepad B") && isGrounded) 
 		{
 			//starts the Dodge Speed Boost timer
 			StartCoroutine ("DodgeTimer");
+			//plays dodge animation
+			playerAnim.setDodgeTrigger ();
 		}
 
 		//checks if the character is dodging and is on the ground
-		if (dodging && isGrounded) 
+		if (dodging) 
 		{
 			//moves character in direction with new burst of speed
 			Char.Move (cam.transform.TransformDirection (moveDirection) * dodgeSpeed * Time.deltaTime);
-			//plays dodge animation
-			playerAnim.setDodgeTrigger ();
 			//adjusts capsule collider height and center to match mesh 
 			Char.center = new Vector3 (0f, -0.33f, 0f);
 			Char.height = 1.1f;

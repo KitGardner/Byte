@@ -33,6 +33,15 @@ public class PlayerAnimController : MonoBehaviour
 	public void setDodgeTrigger()
 	{
 		anim.SetTrigger ("Dodging");
-		print ("I set the dodging trigger");
+	}
+
+	public void setIsGrounded(bool groundState)
+	{
+		anim.SetBool ("IsGrounded", groundState);
+	}
+
+	public void setIsDead()
+	{
+		anim.SetTrigger ("IsDead");
 	}
 }
