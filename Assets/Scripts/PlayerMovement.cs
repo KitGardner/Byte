@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
 		charStartPos = Char.center;
 		playerAnim = GetComponent<PlayerAnimController> ();
 		animationDonePlaying = true;
+		isGrounded = true;
 		attackChainList = "";
 		lastButton = "";
 	}
