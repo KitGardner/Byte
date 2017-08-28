@@ -16,6 +16,14 @@ public class CameraBehavior : MonoBehaviour
 	public Transform target;
 	public Transform camFollower;
 
+	//Lock On Variables
+	public bool playerLockedOn;
+	public bool targetChanged;
+	public Transform enemyToLookAt;
+	Quaternion enemyLookAtRot;
+	Quaternion turnRot;
+	float lockRotInterp;
+
 
 
 
@@ -33,8 +41,32 @@ public class CameraBehavior : MonoBehaviour
 	{
 		//updates camera anchor position to keep up with player position
 		transform.position = target.position;
-		//calls a function to handle camera rotation input and set pitch limits
-		rotateCamera ();
+
+		if (targetChanged) 
+		{
+			lockRotInterp = 0.0f;
+		}
+
+		if (playerLockedOn) 
+		{
+			if (lockRotInterp >= 1.0f) 
+			{
+				//transform.LookAt (enemyToLookAt.position);
+				transform.rotation = turnRot;
+				lockRotInterp = 0.0f;
+			} 
+			else 
+			{
+				followLockedOnEnemy ();
+			}
+			//transform.LookAt (new Vector3 (enemyToLookAt.position.x, 0.0f, enemyToLookAt.position.z));
+		} 
+		else 
+		{
+			//calls a function to handle camera rotation input and set pitch limits
+			rotateCamera ();
+		}
+
 		//updates the camera followers Y rotation to keep track of camera facing direction
 		camFollower.transform.rotation = Quaternion.Euler (camFollower.transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, camFollower.transform.rotation.eulerAngles.z);
 
@@ -75,10 +107,25 @@ public class CameraBehavior : MonoBehaviour
 			//rotates the camera up or down based on right joystick input
 			transform.RotateAround(target.position, transform.right, VerticalSpin * yTurnSpeed * Time.deltaTime);
 		}
-
-
 	}
 
+	void followLockedOnEnemy()
+	{
+		Quaternion forwardLookRot = Quaternion.LookRotation (transform.forward);
+		Vector3 directionOfEnemy = enemyToLookAt.position - transform.position;
+		enemyLookAtRot = Quaternion.LookRotation (directionOfEnemy);
+		turnRot = Quaternion.Euler (forwardLookRot.eulerAngles.x, enemyLookAtRot.eulerAngles.y, enemyLookAtRot.eulerAngles.z);
+		//float lockTurnAngle = Vector3.Angle (transform.forward, directionOfEnemy);
+		/*if (enemyToLookAt.position.x < transform.right.x) 
+		{
+			lockTurnAngle *= -1;
+		} 
+		else 
+		{
+			lockTurnAngle *= 1;
+		}*/
 
-
+		transform.rotation = Quaternion.Slerp (forwardLookRot, turnRot, lockRotInterp);
+		lockRotInterp += Time.deltaTime * 2;
+	}
 }

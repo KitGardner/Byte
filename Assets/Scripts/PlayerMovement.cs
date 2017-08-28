@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
 			//calls jump function
 			Jump ();
 		}
-
+			
 		//moves character using the camera facing direction as base and applying motion
 		Char.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
 

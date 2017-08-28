@@ -12,6 +12,8 @@ public class PlayerStats : MonoBehaviour
 	//virus stats
 	public float maxVirusAmt;
 	public float virusAmt;
+	private float virusStallMaxTime;
+	private float virusCurStallTime;
 
 	//Left Arm stats
 	public string[] listOfArmSkills;
@@ -52,6 +54,8 @@ public class PlayerStats : MonoBehaviour
 		hudManager = GameObject.FindGameObjectWithTag ("Game HUD").GetComponent<HUDManager> ();
 		hudManager.setAbilityIcon (skillIndex);
 		playerAnim = GetComponent<PlayerAnimController> ();
+		virusCurStallTime = 0.0f;
+		virusStallMaxTime = 0.0f;
 	}
 	
 	// Update is called once per frame
@@ -61,8 +65,15 @@ public class PlayerStats : MonoBehaviour
 		if (!isDead) 
 		{
 
-			//deducts from the virus total in real time divided by 2
-			adjVirusAmt (-Time.deltaTime / 2);
+			if (!(virusCurStallTime < virusStallMaxTime)) {
+				//deducts from the virus total in real time divided by 2
+				adjVirusAmt (-Time.deltaTime / 2);
+			} 
+			else 
+			{
+				virusCurStallTime += Time.deltaTime;
+			}
+
 			adjLeftArmCharge (-Time.deltaTime);
 
 			//When the player hits RB it will disable the current weapon and enable the next weapon going up in the array
@@ -144,7 +155,7 @@ public class PlayerStats : MonoBehaviour
 	{
 		isDead = true;
 		playerAnim.setIsDead ();
-		//Application.Quit ();
+		Application.Quit ();
 	}
 		
 	//add or subtract from virusAmt
@@ -176,6 +187,13 @@ public class PlayerStats : MonoBehaviour
 	{
 		//returns a decimal by dividing virus amount by maximum virus amount
 		return virusAmt / maxVirusAmt;
+	}
+
+	//Takes in a float and sets the virus stall time to it. Also resets the virus cur time to start timer.
+	public void stallVirus(float stallTime)
+	{
+		virusStallMaxTime = stallTime;
+		virusCurStallTime = 0.0f;
 	}
 
 	//increases player maxVirusAmt

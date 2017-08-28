@@ -20,6 +20,13 @@ public class EnemyAIBase : MonoBehaviour
 	public float gravity;
 	public float moveSpeed;
 	public float rotInterp;
+	public float playerDistToSelf;
+	public Vector3 origin;
+	private Quaternion startRotation;
+	private float yOriginOffset;
+	public float maxDistanceFromOriginAllowed;
+	public float curDistanceFromOrigin;
+	private bool reachedEndOfLeash;
 
 	//component references
 	public SphereCollider enemySphere;
@@ -38,6 +45,11 @@ public class EnemyAIBase : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		initializeMonster ();
+	}
+
+	public void initializeMonster()
+	{
 		enemySphere = GetComponent<SphereCollider> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
 		anim = GetComponent<Animator> ();
@@ -45,15 +57,35 @@ public class EnemyAIBase : MonoBehaviour
 		aiNavAgent.speed = moveSpeed;
 		isDead = false;
 		enemyCapCol = GetComponent<CapsuleCollider> ();
+		origin = transform.position;
+		startRotation = transform.rotation;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if (!isDead) {
-			adjHealth (-Time.deltaTime);
-		} 
-		else 
+		if (playerDetected) 
+		{
+			moveToLocation ();
+		}
+
+		curDistanceFromOrigin = Vector3.Distance (transform.position, origin);
+		yOriginOffset = curDistanceFromOrigin;
+
+		if (curDistanceFromOrigin >= maxDistanceFromOriginAllowed) 
+		{
+			playerDetected = false;
+			reachedEndOfLeash = true;
+			rotInterp = 0.0f;
+			updateAnimation ("IsBackingUp", true);
+		}
+
+		if (reachedEndOfLeash) 
+		{
+			returnToOrigin ();
+		}
+
+		/*else 
 		{
 			despawnTimer -= Time.deltaTime;
 
@@ -61,41 +93,17 @@ public class EnemyAIBase : MonoBehaviour
 			{
 				Destroy (this.gameObject);
 			}
-		}
+		}*/
 	}
 
 	void OnTriggerStay(Collider other)
 	{
-		if (!isDead) 
+		if (!reachedEndOfLeash) 
 		{
-			if (other.gameObject == player) 
+			if (!isDead) 
 			{
-				direction = other.transform.position - transform.position;
-
-				float angleOfPlayer = Vector3.Angle(transform.forward, direction);
-
-				//print (angleOfPlayer);
-
-				if(angleOfPlayer <= (fieldOfView / 2))
-				{
-					if(!playerDetected)
-						playerDetected = true;
-					anim.SetFloat ("Speed", 1.0f);
-
-					Quaternion enemyLookRotation = Quaternion.LookRotation (transform.forward);
-					Quaternion lookAtPlayerRot = Quaternion.LookRotation (new Vector3 (direction.x, 0.0f, direction.z));
-
-					transform.rotation = Quaternion.Slerp (enemyLookRotation, lookAtPlayerRot, rotInterp);
-
-					rotInterp += Time.deltaTime / 5;
-
-					//Vector3 moveDirection = new Vector3 (direction.x, -gravity, direction.z);
-
-					aiNavAgent.Move (direction * moveSpeed * Time.deltaTime);
-
-
-				}
-			}
+				checkForPlayer (other);
+			}	
 		}
 	}
 
@@ -105,7 +113,7 @@ public class EnemyAIBase : MonoBehaviour
 		{
 			playerDetected = false;
 			rotInterp = 0.0f;
-			anim.SetFloat ("Speed", 0.0f);
+			updateAnimation ("Speed", 0.0f);
 		}
 	}
 
@@ -120,6 +128,7 @@ public class EnemyAIBase : MonoBehaviour
 			Die ();
 		}
 	}
+		
 
 	public float getHealthRatio()
 	{
@@ -131,9 +140,95 @@ public class EnemyAIBase : MonoBehaviour
 		return damage;
 	}
 
-	void Die()
+	public void Die()
 	{
-		anim.SetTrigger("IsDead");
+		updateAnimation ("IsDead");
 		enemyCapCol.enabled = false;
+	}
+
+	public void checkForPlayer(Collider other)
+	{
+		if (other.gameObject == player) 
+		{
+			direction = other.transform.position - transform.position;
+
+			float angleOfPlayer = Vector3.Angle(transform.forward, direction);
+
+			if(angleOfPlayer <= (fieldOfView / 2))
+			{
+				if(!playerDetected)
+					playerDetected = true;
+			}
+		}
+	}
+
+	public void moveToLocation()
+	{
+		updateAnimation ("Speed", 1.0f);
+
+		Quaternion enemyLookRotation = Quaternion.LookRotation (transform.forward);
+		Quaternion lookAtRot = Quaternion.LookRotation (new Vector3 (direction.x, 0.0f, direction.z));
+
+		transform.rotation = Quaternion.Slerp (enemyLookRotation, lookAtRot, rotInterp);
+
+		rotInterp += Time.deltaTime / 2;
+
+		//Vector3 moveDirection = new Vector3 (direction.x, -gravity, direction.z);
+
+		aiNavAgent.Move (direction.normalized * moveSpeed * Time.deltaTime);
+
+		if (rotInterp >= 1.0f)
+			rotInterp = 0.0f;
+
+	}
+	public void returnToOrigin()
+	{
+		direction = origin - transform.position;
+
+		if (Vector3.Distance (player.transform.position, transform.position) > playerDistToSelf) 
+		{
+			updateAnimation("IsBackingUp", false);
+			moveToLocation ();
+		}
+
+		else if((Vector3.Distance(origin, player.transform.position) < maxDistanceFromOriginAllowed)
+			&& (Vector3.Distance(player.transform.position, transform.position) < playerDistToSelf))
+		{
+			direction = player.transform.position - transform.position;
+			updateAnimation("IsBackingUp", false);
+			updateAnimation ("Speed", 1.0f);
+			moveToLocation ();
+		}
+
+		else 
+		{
+			//backAway ();
+			aiNavAgent.Move (direction.normalized * (moveSpeed / 2) * Time.deltaTime);
+			updateAnimation ("IsBackingUp", true);
+			transform.LookAt (player.transform.position);
+			//aiNavAgent.destination = origin;
+		}
+			
+		if (curDistanceFromOrigin < 1.0f) 
+		{
+			reachedEndOfLeash = false;
+			updateAnimation ("Speed", 0.0f);
+		}
+			
+	}
+
+	public void updateAnimation(string animFloatName, float value)
+	{
+		anim.SetFloat (animFloatName, value);
+	}
+
+	public void updateAnimation(string animBoolName, bool value)
+	{
+		anim.SetBool (animBoolName, value);
+	}
+
+	public void updateAnimation(string animTriggerName)
+	{
+		anim.SetTrigger (animTriggerName);
 	}
 }

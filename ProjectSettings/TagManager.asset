@@ -9,6 +9,8 @@ TagManager:
   - Weapon Attach
   - Material Tester
   - Game HUD
+  - Enemy
+  - Camera Controller
   layers:
   - Default
   - TransparentFX
