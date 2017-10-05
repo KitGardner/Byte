@@ -12,12 +12,30 @@ public class PlayerCombat : MonoBehaviour
 	private GameObject lockOnInstance;
 	public List<GameObject> enemiesWithinLockRange;
 
+    //Melee Combat variables
+    public bool isAttacking;
+    public bool canSwitch;
+    public float attackTimer;
+    public float maxAttackTime;
+    public WeaponHitScript hitBoxScript;
+    public bool usingGreatsword;
+    public int lightAttackCount;
+
 	//Object references
 	public CameraBehavior camController;
 	public Transform cam;
+    public PlayerAnimController playerAnim;
+    public PlayerStats playerStats;
+    public PlayerMovement playerMove;
+    public InputManager inputManager;
+    public Transform leftArmAbilityAnchor;
+
+    //Left Arm Object Values
+    public GameObject thrownStakes;
+    private ThrownStakeHit thrownStakeScript;
 
 	//Special class for store and retrieving combat animations
-	public class AttackAnimation
+	/*public class AttackAnimation
 	{
 		string normLightAttack;
 		string normHeavyAttack;
@@ -48,14 +66,9 @@ public class PlayerCombat : MonoBehaviour
 			return "No attack available";
 		}
 	
-	}
-		
-	//Variables for storing possible attack animations
-	private AttackAnimation attackOne;
-	private AttackAnimation attackTwo;
-	private AttackAnimation attackThree;
-	private AttackAnimation attackFour;
-	private List<AttackAnimation> chainAttacks;
+	}*/
+
+    
 
 	// Use this for initialization
 	void Start () 
@@ -63,23 +76,25 @@ public class PlayerCombat : MonoBehaviour
 		//Initialize all object references and starting values. Add attack animations to list
 		cam = GameObject.FindGameObjectWithTag ("Camera Anchor").transform;
 		camController = GameObject.FindGameObjectWithTag ("Camera Controller").GetComponent<CameraBehavior> ();
-		attackOne = new AttackAnimation ("Forward Slash", "Slam", "Whirlwind", "Uppercut");
-		attackTwo = new AttackAnimation ("Backhand", "Somersault", "Thrust", "Smash");
-		attackThree = new AttackAnimation ("Stab", "Uplift", "Clim Hazzard", "Charge");
-		attackFour = new AttackAnimation ("Pull Away", "Batter Swing", "Down Thrust", "Falling Slash");
-		chainAttacks = new List<AttackAnimation>();
-		chainAttacks.Add (attackOne);
-		chainAttacks.Add (attackTwo);
-		chainAttacks.Add (attackThree);
-		chainAttacks.Add (attackFour);
+        playerAnim = GetComponent<PlayerAnimController>();
+        playerStats = GetComponent<PlayerStats>();
+        playerMove = GetComponent<PlayerMovement>();
+        inputManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<InputManager>();
+        leftArmAbilityAnchor = GameObject.FindGameObjectWithTag("LeftArmAnchor").transform;
+		//chainAttacks.Add (attackOne);
+		//chainAttacks.Add (attackTwo);
+		//chainAttacks.Add (attackThree);
+		//chainAttacks.Add (attackFour);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		//if LT is pressed. Runs every frame LT is held
-		if (Input.GetAxis ("Gamepad LT") > 0.0f)
+        #region Lock On Section
+        //if LT is pressed. Runs every frame LT is held
+        if (Input.GetAxis ("Gamepad LT") > 0.0f)
 		{
+            //print("LT is being pressed");
 			//checks if there are any enemies within lock on range
 			if (!(enemiesWithinLockRange.Count <= 0)) 
 			{
@@ -92,6 +107,7 @@ public class PlayerCombat : MonoBehaviour
 					//sets camera to look at locked on enemy
 					camController.playerLockedOn = true;
 					camController.enemyToLookAt = lockedOnEnemy.transform;
+                    inputManager.playerState = InputManager.playerStates.lockedOn;
 
 					//spawns particle effect to show what enemy is locked on. Will be switched later with proper graphic
 					lockOnInstance = Instantiate (lockOnParticle);
@@ -111,9 +127,10 @@ public class PlayerCombat : MonoBehaviour
 				//disables lock on
 				lockedOnEnemy = null;
 				targetLocked = false;
+                inputManager.playerState = InputManager.playerStates.freeRoam;
 
-				//sets camera to normal behaviour
-				camController.playerLockedOn = false;
+                //sets camera to normal behaviour
+                camController.playerLockedOn = false;
 				camController.enemyToLookAt = null;
 
 				//destroys lock on graphic
@@ -164,12 +181,66 @@ public class PlayerCombat : MonoBehaviour
 			}
 
 		}
+        #endregion
 
-			
-	}
+        #region Player Combat
+        if (playerAnim.anim.applyRootMotion == true)
+        {
+            if (playerAnim.anim.GetNextAnimatorStateInfo(1).IsName("Attack Layer.Attack Base State"))
+            {
+                playerAnim.anim.applyRootMotion = false;
+                isAttacking = false;
+                usingGreatsword = false;
+                playerMove.isAttacking = false;
+                lightAttackCount = 0;
+                playerStats.canSwitchWeapons = true;
+                playerStats.unequipWeapon();
+                playerAnim.isAttacking(isAttacking, playerStats.weaponName);
+                playerAnim.usingLeftArm(false);
+            }
+        }
 
-	//Handles checking if anything is within the sight sphere collider attached to player
-	void OnTriggerEnter(Collider other)
+        /*if(Input.GetButtonDown("Gamepad X"))
+        {
+            playerAnim.anim.applyRootMotion = true;
+            isAttacking = true;
+            playerMove.faceEnemyWhenAttacking();
+            if (!(playerStats.weaponEquipped))
+                playerStats.placeWeaponInHand();
+            playerStats.canSwitchWeapons = false;
+
+            playerAnim.isAttacking(isAttacking, playerStats.weaponName);
+            playerAnim.lightAttack();
+        }
+
+        if (Input.GetButtonDown("Gamepad Y"))
+        {
+            playerAnim.anim.applyRootMotion = true;
+            isAttacking = true;
+            playerMove.faceEnemyWhenAttacking();
+            if (!(playerStats.weaponEquipped))
+                playerStats.placeWeaponInHand();
+            playerStats.canSwitchWeapons = false;
+
+            playerAnim.isAttacking(isAttacking, playerStats.weaponName);
+            playerAnim.heavyAttack();
+        }*/
+
+    }
+
+    public void turnDamageOn()
+    {
+        hitBoxScript.turnDamageOn();
+    }
+
+    public void turnDamageOff()
+    {
+        hitBoxScript.turnDamageOff();
+    }
+    #endregion
+
+    //Handles checking if anything is within the sight sphere collider attached to player
+    void OnTriggerEnter(Collider other)
 	{
 		//checks if the colliding object is an enemy
 		if (other.tag == "Enemy") 
@@ -303,4 +374,46 @@ public class PlayerCombat : MonoBehaviour
 		//if there is no enemy in the direction that the player picks. Return the enemy that is farthest away from the player
 		return enemiesWithinLockRange [farthestEnemyIndex];
 	}
+
+    public void usingLightAttack()
+    {
+        playerAnim.anim.applyRootMotion = true;
+        isAttacking = true;
+        playerMove.faceEnemyWhenAttacking();
+        if (!(playerStats.weaponEquipped))
+            playerStats.placeWeaponInHand();
+        playerStats.canSwitchWeapons = false;
+
+        playerAnim.isAttacking(isAttacking, playerStats.weaponName);
+        playerAnim.lightAttack();
+    }
+
+    public void usingHeavyAttack()
+    {
+        playerAnim.anim.applyRootMotion = true;
+        isAttacking = true;
+        playerMove.faceEnemyWhenAttacking();
+        if (!(playerStats.weaponEquipped))
+            playerStats.placeWeaponInHand();
+        playerStats.canSwitchWeapons = false;
+
+        playerAnim.isAttacking(isAttacking, playerStats.weaponName);
+        playerAnim.heavyAttack();
+    }
+
+    public void usingLeftArm()
+    {
+        playerAnim.anim.applyRootMotion = true;
+        playerMove.faceEnemyWhenAttacking();
+        playerAnim.usingLeftArm(true);
+
+        if(playerStats.curArmSkill == "Stakes")
+                playerAnim.throwStake();
+    }
+
+    public void createStake()
+    {
+        thrownStakeScript = Instantiate(thrownStakes, leftArmAbilityAnchor.position, Quaternion.Euler(new Vector3(90, transform.rotation.eulerAngles.y, 0))).GetComponent<ThrownStakeHit>();
+        thrownStakeScript.setTrajectory(transform.forward, 2000f);   
+    }
 }

@@ -125,6 +125,7 @@ public class EnemyAIBase : MonoBehaviour
 		if (health <= 0.0f) 
 		{
 			isDead = true;
+            health = 0.0f;
 			Die ();
 		}
 	}
@@ -144,6 +145,7 @@ public class EnemyAIBase : MonoBehaviour
 	{
 		updateAnimation ("IsDead");
 		enemyCapCol.enabled = false;
+        moveSpeed = 0;
 	}
 
 	public void checkForPlayer(Collider other)

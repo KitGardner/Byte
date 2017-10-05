@@ -28,15 +28,20 @@ public class PlayerStats : MonoBehaviour
 	bool isDead = false;
 
 	//Material Variables
-	public Material baseMaterial;
-	public Material sickMaterial;
-	public Material charMaterial;
+	//public Material baseMaterial;
+	//public Material sickMaterial;
+	//public Material charMaterial;
 
 	//Equipped weapon variables
 	public GameObject[] listOfWeapons;
+    public GameObject[] heldWeapons;
 	public GameObject equippedWeapon;
+    public GameObject weaponInHand;
+    public bool weaponEquipped;
 	public int itemIndex;
 	public Transform weaponAttachmentPoint;
+    public string weaponName;
+    public bool canSwitchWeapons;
 
 	private PlayerAnimController playerAnim;
 
@@ -49,13 +54,15 @@ public class PlayerStats : MonoBehaviour
 		equippedWeapon = getWeaponAtIndex (itemIndex);
 		weaponAttachmentPoint = GameObject.FindGameObjectWithTag ("Weapon Attach").transform;
 		listOfWeapons [itemIndex].SetActive (true);
+        heldWeapons[itemIndex].SetActive(false);
 		curArmSkill = getAbilityatIndex (skillIndex);
-		charMaterial = GameObject.FindGameObjectWithTag ("Material Tester").GetComponent<Renderer>().material;
+		//charMaterial = GameObject.FindGameObjectWithTag ("Material Tester").GetComponent<Renderer>().material;
 		hudManager = GameObject.FindGameObjectWithTag ("Game HUD").GetComponent<HUDManager> ();
 		hudManager.setAbilityIcon (skillIndex);
 		playerAnim = GetComponent<PlayerAnimController> ();
 		virusCurStallTime = 0.0f;
 		virusStallMaxTime = 0.0f;
+        canSwitchWeapons = true;
 	}
 	
 	// Update is called once per frame
@@ -79,23 +86,29 @@ public class PlayerStats : MonoBehaviour
 			//When the player hits RB it will disable the current weapon and enable the next weapon going up in the array
 			if (Input.GetButtonDown ("Weapon Toggle Right")) 
 			{
-				//Turns off current weapon
-				equippedWeapon.SetActive (false);
-				//Adds 1 to the item index and returns the new weapon
-				equippedWeapon = increaseWeaponIndex ();
-				//sets the new weapon to active
-				equippedWeapon.SetActive(true);
+                if (canSwitchWeapons)
+                {
+                    //Turns off current weapon
+                    equippedWeapon.SetActive(false);
+                    //Adds 1 to the item index and returns the new weapon
+                    equippedWeapon = increaseWeaponIndex();
+                    //sets the new weapon to active
+                    equippedWeapon.SetActive(true);
+                }
 			}
 
 			//When the player hits LB it will disable the current weapon and enable the next weapon going down in the array
 			else if (Input.GetButtonDown ("Weapon Toggle Left")) 
 			{
-				//Turns off current weapon
-				equippedWeapon.SetActive (false);
-				//Subtracts 1 from the item index and returns the new weapon
-				equippedWeapon = decreaseWeaponIndex();
-				//Sets the new weapon to active
-				equippedWeapon.SetActive(true);
+                if (canSwitchWeapons)
+                {
+                    //Turns off current weapon
+                    equippedWeapon.SetActive(false);
+                    //Subtracts 1 from the item index and returns the new weapon
+                    equippedWeapon = decreaseWeaponIndex();
+                    //Sets the new weapon to active
+                    equippedWeapon.SetActive(true);
+                }
 			}
 
 			//stores the state of the trigger press as a bool
@@ -179,7 +192,7 @@ public class PlayerStats : MonoBehaviour
 		if (virusAmt > maxVirusAmt)
 			virusAmt = maxVirusAmt;
 
-		changePlayerMaterial ();
+		//changePlayerMaterial ();
 	}
 
 	//divides virusAmt by maxVirusAmt and returns a float between 0 and 1
@@ -204,11 +217,11 @@ public class PlayerStats : MonoBehaviour
 	}
 
 	//Changes player material base off virus level
-	void changePlayerMaterial()
-	{
-		//presently this changes the material of the capsule by using lerp. When the proper player character and material are added this will change to the player Material
-		charMaterial.Lerp (sickMaterial, baseMaterial, getVirusRatio ());
-	}
+	//void changePlayerMaterial()
+	//{
+	//	//presently this changes the material of the capsule by using lerp. When the proper player character and material are added this will change to the player Material
+	//	charMaterial.Lerp (sickMaterial, baseMaterial, getVirusRatio ());
+	//}
 
 	//adjusts the charge amount of the left arm with incoming value
 	public void adjLeftArmCharge(float adj)
@@ -234,6 +247,8 @@ public class PlayerStats : MonoBehaviour
 	//Returns the weapon at the incoming index
 	public GameObject getWeaponAtIndex(int i)
 	{
+        weaponName = listOfWeapons[i].name;
+        print(weaponName);
 		return listOfWeapons [i];
 	}
 
@@ -264,6 +279,22 @@ public class PlayerStats : MonoBehaviour
 		//returns the weapon at item index
 		return getWeaponAtIndex (itemIndex);
 	}
+
+    public void placeWeaponInHand()
+    {
+        listOfWeapons[itemIndex].SetActive(false);
+        heldWeapons[itemIndex].SetActive(true);
+        weaponInHand = heldWeapons[itemIndex];
+        weaponEquipped = true;
+    }
+
+    public void unequipWeapon()
+    {
+        heldWeapons[itemIndex].SetActive(false);
+        listOfWeapons[itemIndex].SetActive(true);
+        weaponInHand = null;
+        weaponEquipped = false;
+    }
 
 	//get the arm ability stored at the index of the array
 	public string getAbilityatIndex(int i)

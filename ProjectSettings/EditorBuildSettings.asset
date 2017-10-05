@@ -6,4 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/testscene.unity
+    path: Assets/Scenes/Credits Scene.unity
+  - enabled: 1
+    path: Assets/Scenes/Duvall Interior Scene.unity
+  - enabled: 1
+    path: Assets/Scenes/Duvall_Estate_Exterior_Scene.unity
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity

@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
@@ -318,7 +320,7 @@ VertexOutputForwardBase vertForwardBase (VertexInput v)
 	#if UNITY_SPECCUBE_BOX_PROJECTION
 		o.posWorld = posWorld.xyz;
 	#endif
-	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	o.pos = UnityObjectToClipPos(v.vertex);
 	o.tex = TexCoords(v);
 	o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
 	float3 normalWorld = UnityObjectToWorldNormal(v.normal);
@@ -495,7 +497,7 @@ VertexOutputForwardAdd vertForwardAdd (VertexInput v)
 #else
 	float4 posWorld = mul(unity_ObjectToWorld, v.vertex);
 #endif
-	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	o.pos = UnityObjectToClipPos(v.vertex);
 	o.tex = TexCoords(v);
 	o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
 	float3 normalWorld = UnityObjectToWorldNormal(v.normal);

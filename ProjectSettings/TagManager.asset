@@ -11,6 +11,8 @@ TagManager:
   - Game HUD
   - Enemy
   - Camera Controller
+  - Game Manager
+  - LeftArmAnchor
   layers:
   - Default
   - TransparentFX
@@ -20,9 +22,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - PlayerWeapons
   - 
   - 
   - 

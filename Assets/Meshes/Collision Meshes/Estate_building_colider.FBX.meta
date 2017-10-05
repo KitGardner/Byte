@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: 40f4d82347a95fc45855d169a9d8d167
+timeCreated: 1506472280
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: door
+    100002: door arch
+    100004: //RootNode
+    100006: great_window
+    100008: great_window001
+    100010: House_main
+    100012: Middle_dome
+    100014: Middle_dome001
+    100016: Middle_dome002
+    100018: Middle_dome003
+    100020: Middle_dome004
+    100022: Observation_window
+    100024: Roof
+    100026: small_window
+    100028: small_window001
+    100030: small_window002
+    100032: small_window003
+    100034: small_window004
+    100036: small_window005
+    100038: small_window006
+    100040: small_window007
+    400000: door
+    400002: door arch
+    400004: //RootNode
+    400006: great_window
+    400008: great_window001
+    400010: House_main
+    400012: Middle_dome
+    400014: Middle_dome001
+    400016: Middle_dome002
+    400018: Middle_dome003
+    400020: Middle_dome004
+    400022: Observation_window
+    400024: Roof
+    400026: small_window
+    400028: small_window001
+    400030: small_window002
+    400032: small_window003
+    400034: small_window004
+    400036: small_window005
+    400038: small_window006
+    400040: small_window007
+    2300000: door
+    2300002: door arch
+    2300004: great_window
+    2300006: great_window001
+    2300008: House_main
+    2300010: Middle_dome
+    2300012: Middle_dome001
+    2300014: Middle_dome002
+    2300016: Middle_dome003
+    2300018: Middle_dome004
+    2300020: Observation_window
+    2300022: Roof
+    2300024: small_window
+    2300026: small_window001
+    2300028: small_window002
+    2300030: small_window003
+    2300032: small_window004
+    2300034: small_window005
+    2300036: small_window006
+    2300038: small_window007
+    3300000: door
+    3300002: door arch
+    3300004: great_window
+    3300006: great_window001
+    3300008: House_main
+    3300010: Middle_dome
+    3300012: Middle_dome001
+    3300014: Middle_dome002
+    3300016: Middle_dome003
+    3300018: Middle_dome004
+    3300020: Observation_window
+    3300022: Roof
+    3300024: small_window
+    3300026: small_window001
+    3300028: small_window002
+    3300030: small_window003
+    3300032: small_window004
+    3300034: small_window005
+    3300036: small_window006
+    3300038: small_window007
+    4300000: House_main
+    4300002: Roof
+    4300004: Middle_dome
+    4300006: small_window
+    4300008: Observation_window
+    4300010: door arch
+    4300012: door
+    4300014: Middle_dome001
+    4300016: Middle_dome002
+    4300018: Middle_dome003
+    4300020: Middle_dome004
+    4300022: small_window001
+    4300024: small_window002
+    4300026: small_window003
+    4300028: great_window
+    4300030: great_window001
+    4300032: small_window004
+    4300034: small_window005
+    4300036: small_window006
+    4300038: small_window007
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

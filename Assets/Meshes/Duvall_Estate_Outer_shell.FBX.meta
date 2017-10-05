@@ -1,37 +1,122 @@
 fileFormatVersion: 2
-guid: 0f5789ee91c6a1b4098c4624ed93411e
-timeCreated: 1500321160
+guid: 413d6855982bc6848b0e274d294dc6b6
+timeCreated: 1502154235
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: east_dome
-    100004: House_main
-    100006: Middle_dome
-    100008: Roof
-    100010: West_Dome
-    400000: //RootNode
-    400002: east_dome
-    400004: House_main
-    400006: Middle_dome
-    400008: Roof
-    400010: West_Dome
-    2300000: east_dome
-    2300002: House_main
-    2300004: Middle_dome
-    2300006: Roof
-    2300008: West_Dome
-    3300000: east_dome
-    3300002: House_main
-    3300004: Middle_dome
-    3300006: Roof
-    3300008: West_Dome
+    100000: door arch
+    100002: //RootNode
+    100004: great_window
+    100006: great_window001
+    100008: House_main
+    100010: l_door
+    100012: l_Door_Hinge
+    100014: Middle_dome
+    100016: Middle_dome001
+    100018: Middle_dome002
+    100020: Middle_dome003
+    100022: Middle_dome004
+    100024: Observation_window
+    100026: R_Door
+    100028: r_door_Hinge
+    100030: Roof
+    100032: small_window
+    100034: small_window001
+    100036: small_window002
+    100038: small_window003
+    100040: small_window004
+    100042: small_window005
+    100044: small_window006
+    100046: small_window007
+    400000: door arch
+    400002: //RootNode
+    400004: great_window
+    400006: great_window001
+    400008: House_main
+    400010: l_door
+    400012: l_Door_Hinge
+    400014: Middle_dome
+    400016: Middle_dome001
+    400018: Middle_dome002
+    400020: Middle_dome003
+    400022: Middle_dome004
+    400024: Observation_window
+    400026: R_Door
+    400028: r_door_Hinge
+    400030: Roof
+    400032: small_window
+    400034: small_window001
+    400036: small_window002
+    400038: small_window003
+    400040: small_window004
+    400042: small_window005
+    400044: small_window006
+    400046: small_window007
+    2300000: door arch
+    2300002: great_window
+    2300004: great_window001
+    2300006: House_main
+    2300008: l_door
+    2300010: Middle_dome
+    2300012: Middle_dome001
+    2300014: Middle_dome002
+    2300016: Middle_dome003
+    2300018: Middle_dome004
+    2300020: Observation_window
+    2300022: R_Door
+    2300024: Roof
+    2300026: small_window
+    2300028: small_window001
+    2300030: small_window002
+    2300032: small_window003
+    2300034: small_window004
+    2300036: small_window005
+    2300038: small_window006
+    2300040: small_window007
+    3300000: door arch
+    3300002: great_window
+    3300004: great_window001
+    3300006: House_main
+    3300008: l_door
+    3300010: Middle_dome
+    3300012: Middle_dome001
+    3300014: Middle_dome002
+    3300016: Middle_dome003
+    3300018: Middle_dome004
+    3300020: Observation_window
+    3300022: R_Door
+    3300024: Roof
+    3300026: small_window
+    3300028: small_window001
+    3300030: small_window002
+    3300032: small_window003
+    3300034: small_window004
+    3300036: small_window005
+    3300038: small_window006
+    3300040: small_window007
     4300000: House_main
     4300002: Roof
     4300004: Middle_dome
-    4300006: east_dome
-    4300008: West_Dome
+    4300006: small_window
+    4300008: Observation_window
+    4300010: door arch
+    4300012: l_door
+    4300014: R_Door
+    4300016: Middle_dome001
+    4300018: Middle_dome002
+    4300020: Middle_dome003
+    4300022: Middle_dome004
+    4300024: small_window001
+    4300026: small_window002
+    4300028: small_window003
+    4300030: great_window
+    4300032: great_window001
+    4300034: small_window004
+    4300036: small_window005
+    4300038: small_window006
+    4300040: small_window007
+    7400000: Take 001
     9500000: //RootNode
   materials:
     importMaterials: 1

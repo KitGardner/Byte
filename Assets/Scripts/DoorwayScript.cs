@@ -1,39 +1,30 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class DoorwayScript : MonoBehaviour 
+public class DoorwayScript : InteractiveObject
 {
 	public string levelToLoad;
 	public LevelManager levelManager;
 	public bool playerAtThreshold;
 
-	// Use this for initialization
-	void Start () 
+    // Use this for initialization
+    void Start () 
 	{
 		levelManager = GameObject.Find ("Scene Manager").GetComponent<LevelManager>();
+        inputManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<InputManager>();
 		playerAtThreshold = false;
 	}
 	
-	// Update is called once per frame
-	void Update () 
-	{
-		if (playerAtThreshold) 
-		{
-			if(Input.GetButtonDown("Gamepad Jump"))
-			{
-				levelManager.LoadScene (levelToLoad);
-			}
-		}
-
-		
-	}
-
+	
 	void OnTriggerEnter(Collider col)
 	{
 		if (col.tag == "Player") 
 		{
-			playerAtThreshold = true;
+            playerAtThreshold = true;
+            setPlayerInteractivity(playerAtThreshold);
 		}
 	}
 
@@ -42,6 +33,14 @@ public class DoorwayScript : MonoBehaviour
 		if (col.tag == "Player") 
 		{
 			playerAtThreshold = false;
+            setPlayerInteractivity(playerAtThreshold);
 		}
 	}
+
+    
+
+    public override void Interact()
+    {
+        levelManager.LoadScene(levelToLoad);
+    }
 }
