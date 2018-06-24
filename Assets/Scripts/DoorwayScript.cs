@@ -9,6 +9,7 @@ public class DoorwayScript : InteractiveObject
 	public string levelToLoad;
 	public LevelManager levelManager;
 	public bool playerAtThreshold;
+    public GameObject DoorLockedParticle;
 
     // Use this for initialization
     void Start () 
@@ -23,8 +24,17 @@ public class DoorwayScript : InteractiveObject
 	{
 		if (col.tag == "Player") 
 		{
-            playerAtThreshold = true;
-            setPlayerInteractivity(playerAtThreshold);
+            if (DuvallEstateExtManager.ManorDoorUnlocked)
+            {
+                playerAtThreshold = true;
+                setPlayerInteractivity(playerAtThreshold);
+            }
+            else
+            {
+                Instantiate(DoorLockedParticle, this.transform.position + new Vector3(0, 0, 1), Quaternion.identity);
+            }
+
+
 		}
 	}
 

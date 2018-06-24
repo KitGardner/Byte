@@ -731,8 +731,8 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 753950760}
-  m_LocalRotation: {x: 0.0015882823, y: -0.0000019404622, z: -0.0012217339, w: 0.99999803}
-  m_LocalPosition: {x: 0.0003656497, y: 0.56179494, z: -0.18611309}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 969285911}
@@ -886,31 +886,31 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.029193336
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.0598981
+      value: -1.03
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.008318295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.00032282443
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0000006395014
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0019809534
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.999998
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_RootOrder
@@ -918,13 +918,18 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_Name
-      value: dreyar_m_aure (1)
+      value: dreyar_m_aure
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 400002, guid: 4244620e091df084990d65e21a9053d8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 4244620e091df084990d65e21a9053d8, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 4244620e091df084990d65e21a9053d8, type: 3}
   m_IsPrefabParent: 0
 --- !u!1001 &828750627
@@ -940,11 +945,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3d8f5845c7d4115418b19e84c7168276, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.31
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3d8f5845c7d4115418b19e84c7168276, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 30.51
+      value: 37.3
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3d8f5845c7d4115418b19e84c7168276, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1004,6 +1009,7 @@ MonoBehaviour:
   levelToLoad: Duvall Interior Scene
   levelManager: {fileID: 0}
   playerAtThreshold: 0
+  DoorLockedParticle: {fileID: 0}
 --- !u!65 &828750631
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1016,6 +1022,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.236669, y: 1.2327763, z: 2.5314863}
   m_Center: {x: -0.0003471605, y: -0.43551305, z: 0.10297041}
+--- !u!114 &828750635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 828750629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1ae165f1a7c7314895a1f45c46efa2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputManager: {fileID: 0}
+  levelToLoad: 
+  levelManager: {fileID: 0}
+  playerAtThreshold: 0
+  DoorLockedParticle: {fileID: 1939586506253722, guid: 9d3f054de049f6d4591e9d61ed3d323a,
+    type: 2}
 --- !u!1 &841430136
 GameObject:
   m_ObjectHideFlags: 0
@@ -1386,7 +1409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 0
-  moveSpeed: 5
+  moveSpeed: 7
   turnSpeed: 100
   downAccel: 1
   moveDirection: {x: 0, y: 0, z: 0}
@@ -1447,7 +1470,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 969285903}
   m_LocalRotation: {x: -0.00032282443, y: 0.0000006395014, z: 0.0019809534, w: 0.999998}
-  m_LocalPosition: {x: 265.537, y: 1.051, z: 325.5}
+  m_LocalPosition: {x: 265.537, y: 1.301, z: 325.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 973873798}

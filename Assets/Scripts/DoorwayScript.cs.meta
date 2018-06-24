@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: d1ae165f1a7c7314895a1f45c46efa2d
-timeCreated: 1499311183
-licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - inputManager: {instanceID: 0}
+  - levelManager: {instanceID: 0}
+  - DoorLockedParticle: {fileID: 1939586506253722, guid: 9d3f054de049f6d4591e9d61ed3d323a,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
