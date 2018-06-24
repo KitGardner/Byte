@@ -10,6 +10,7 @@ public class DoorwayScript : InteractiveObject
 	public LevelManager levelManager;
 	public bool playerAtThreshold;
     public GameObject DoorLockedParticle;
+    private GameObject tempLockedParticle;
 
     // Use this for initialization
     void Start () 
@@ -24,18 +25,9 @@ public class DoorwayScript : InteractiveObject
 	{
 		if (col.tag == "Player") 
 		{
-            if (DuvallEstateExtManager.ManorDoorUnlocked)
-            {
-                playerAtThreshold = true;
-                setPlayerInteractivity(playerAtThreshold);
-            }
-            else
-            {
-                Instantiate(DoorLockedParticle, this.transform.position + new Vector3(0, 0, 1), Quaternion.identity);
-            }
-
-
-		}
+            playerAtThreshold = true;
+            setPlayerInteractivity(playerAtThreshold);
+        }
 	}
 
 	void OnTriggerExit(Collider col)
@@ -51,6 +43,10 @@ public class DoorwayScript : InteractiveObject
 
     public override void Interact()
     {
-        levelManager.LoadScene(levelToLoad);
+        if (DuvallEstateExtManager.ManorDoorUnlocked)
+            levelManager.LoadScene(levelToLoad);
+        else
+            if(tempLockedParticle == null)
+                tempLockedParticle = Instantiate(DoorLockedParticle, this.transform.position + new Vector3(0, 0, 1), Quaternion.identity);
     }
 }

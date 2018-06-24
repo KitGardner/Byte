@@ -71,25 +71,24 @@ public class PlayerMovement : MonoBehaviour
 		isGrounded = true;
 		attackChainList = "";
 		lastButton = "";
-        isGrounded = true;
 	}
 	
 	// Fixed Update is called every 0.2 seconds
 	void FixedUpdate () 
 	{
-		if (Physics.Raycast (transform.position, Vector3.down, 1.0f)) 
+		if (Char.isGrounded) 
 		{
             print("I am hitting ground");
 			isGrounded = true;
 			playerAnim.setIsGrounded (true);
-		} 
-		//else 
-		//{
-		//	isGrounded = false;
-		//	playerAnim.setIsGrounded (false);
-		//}
-		//store the axis values of the controller left joystick
-		horizontal = Input.GetAxis ("Gamepad Horizontal");
+		}
+        //else
+        //{
+        //    isGrounded = false;
+        //    playerAnim.setIsGrounded(false);
+        //}
+        //store the axis values of the controller left joystick
+        horizontal = Input.GetAxis ("Gamepad Horizontal");
 		vertical = Input.GetAxis ("Gamepad Vertical");
 
 		playerAnim.setSpeedValue (Mathf.Abs(horizontal) + Mathf.Abs(vertical));
