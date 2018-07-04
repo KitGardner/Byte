@@ -74,22 +74,20 @@ public class PlayerMovement : MonoBehaviour
 	}
 	
 	// Fixed Update is called every 0.2 seconds
-	void FixedUpdate () 
+	void Update () 
 	{
 		if (Char.isGrounded) 
 		{
-            print("I am hitting ground");
-			isGrounded = true;
-			playerAnim.setIsGrounded (true);
+
 		}
-        //else
-        //{
-        //    isGrounded = false;
-        //    playerAnim.setIsGrounded(false);
-        //}
+        else
+        {
+
+            //playerAnim.setIsGrounded(false);
+        }
         //store the axis values of the controller left joystick
-        horizontal = Input.GetAxis ("Gamepad Horizontal");
-		vertical = Input.GetAxis ("Gamepad Vertical");
+  //      horizontal = Input.GetAxis ("Gamepad Horizontal");
+		//vertical = Input.GetAxis ("Gamepad Vertical");
 
 		playerAnim.setSpeedValue (Mathf.Abs(horizontal) + Mathf.Abs(vertical));
 
@@ -125,22 +123,40 @@ public class PlayerMovement : MonoBehaviour
 	{
 		
 		//checks if player is grounded and applies gravity
-		if (isGrounded) 
+		if (Char.isGrounded) 
 		{
-			//player is on the ground and no additional gravity is applied
-			moveDirection.y = 0;	
-		} 
+            isGrounded = true;
+            //playerAnim.setIsGrounded(true);
+            moveDirection = new Vector3(Input.GetAxis("Gamepad Horizontal"), 0, Input.GetAxis("Gamepad Vertical"));
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection *= moveSpeed;
+            moveDirection.y = downAccel;
+
+            if(Input.GetButtonDown("Gamepad Jump"))
+            {
+                moveDirection.y = jumpStrength;
+            }
+            //moveDirection.x = horizontal * moveSpeed;
+            //moveDirection.z = vertical * moveSpeed;
+        } 
 		else 
 		{
-			//player is in the air, applies gravity to player
-			moveDirection.y -= downAccel;
-		}
+            //player is in the air, applies gravity to player
+            moveDirection = new Vector3(Input.GetAxis("Gamepad Horizontal"), moveDirection.y, Input.GetAxis("Gamepad Vertical"));
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection.x *= moveSpeed;
+            moveDirection.z *= moveSpeed;
+            moveDirection.y -= downAccel;
 
-		moveDirection.x = horizontal * moveSpeed;
-		moveDirection.z = vertical * moveSpeed;
+        }
 
-		//small delay so player finishes turning before moving
-		/*if (rotinterp >= 0.2f) 
+
+
+        //moveDirection.x = horizontal * moveSpeed;
+        //moveDirection.z = vertical * moveSpeed;
+
+        //small delay so player finishes turning before moving
+        /*if (rotinterp >= 0.2f) 
 		{
 			//Sets MoveDirection with joysticks are moved
 			moveDirection.x = horizontal * moveSpeed;
@@ -152,16 +168,17 @@ public class PlayerMovement : MonoBehaviour
 			moveDirection.x = 0;
 			moveDirection.z = 0;
 		}*/
-			
-		//checks for jump input
-		/*if ((Input.GetButtonDown ("Gamepad Jump")) && (isGrounded)) 
+
+        //checks for jump input
+        /*if ((Input.GetButtonDown ("Gamepad Jump")) && (isGrounded)) 
 		{
 			//calls jump function
 			Jump ();
 		}*/
-			
-		//moves character using the camera facing direction as base and applying motion
-		Char.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
+
+        //moves character using the camera facing direction as base and applying motion
+        Char.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
+        //Char.Move(moveDirection * Time.deltaTime);
 
 	}
 
