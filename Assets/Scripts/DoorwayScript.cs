@@ -47,6 +47,6 @@ public class DoorwayScript : InteractiveObject
             levelManager.LoadScene(levelToLoad);
         else
             if(tempLockedParticle == null)
-                tempLockedParticle = Instantiate(DoorLockedParticle, this.transform.position + new Vector3(0, 0, 1), Quaternion.identity);
+                tempLockedParticle = Instantiate(DoorLockedParticle, this.transform.position + new Vector3(0, -8, 1), Quaternion.identity);
     }
 }

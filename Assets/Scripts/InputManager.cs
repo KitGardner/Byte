@@ -13,7 +13,7 @@ public class InputManager : MonoBehaviour
 
 
     public playerStates playerState;
-    public PlayerMovement playerMove;
+    public CharacterMovement playerMove;
     public PlayerCombat playerCombat;
     public InteractiveObject InteractObj;
     public bool gamePaused;
@@ -27,8 +27,8 @@ public class InputManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
-        playerCombat = playerMove.gameObject.GetComponent<PlayerCombat>();
+        playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterMovement>();
+        //playerCombat = playerMove.gameObject.GetComponent<PlayerCombat>();
         playerState = playerStates.freeRoam;
         gamePaused = false;	
 	}
@@ -36,6 +36,7 @@ public class InputManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        //Seems to have about an 80% responsiveness. Perhaps a release build works better?
 	    if(Input.GetButtonDown("Gamepad Jump"))
         {
             switch(playerState)
@@ -47,7 +48,6 @@ public class InputManager : MonoBehaviour
                     InteractObj.Interact();
                     break;
                 case playerStates.freeRoam:
-                    if (playerMove.isGrounded)
                         playerMove.Jump();
                     break;
                 default:
@@ -57,6 +57,12 @@ public class InputManager : MonoBehaviour
                
 
         }
+
+        var horizontal = Input.GetAxis("Gamepad Horizontal");
+        var vertical = Input.GetAxis("Gamepad Vertical");
+
+        playerMove.HandleMovement(horizontal, vertical);
+        playerMove.HandleRotation(horizontal, vertical);
 
         checkForAttackInput();
 

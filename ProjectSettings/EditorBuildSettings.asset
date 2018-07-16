@@ -6,10 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Credits Scene.unity
+    path: Assets/Scenes/TitleScene.unity
+    guid: 2e7f5134ad680274ebe4b55c9bc42923
   - enabled: 1
-    path: Assets/Scenes/Duvall Interior Scene.unity
+    path: Assets/Scenes/Credits Scene.unity
+    guid: 59ce42165a6c9e9439c0c2f71339fe68
   - enabled: 1
     path: Assets/Scenes/Duvall_Estate_Exterior_Scene.unity
+    guid: 7c8c953f0a7f0a94497972f574d0868c
   - enabled: 1
-    path: Assets/Scenes/TitleScene.unity
+    path: Assets/Scenes/Duvall Interior Scene.unity
+    guid: f2db7d60a65315e49aa1f4fef686e270
+  m_configObjects: {}

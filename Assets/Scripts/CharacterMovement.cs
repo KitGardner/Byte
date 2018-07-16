@@ -15,6 +15,7 @@ public class CharacterMovement : MonoBehaviour
 
 
     private bool buttonHeld;
+    private bool alreadyGrounded = false;
     private int jumps;
     private Vector3 moveDirection;
     private float horizontal;
@@ -22,67 +23,100 @@ public class CharacterMovement : MonoBehaviour
     private float turnAngle;
     private float rotInterp;
     private Quaternion nextRot;
+    private PlayerAnimController animController;
 
 	// Use this for initialization
 	void Start () {
         controller = GetComponent<CharacterController>();
         cam = GameObject.FindGameObjectWithTag("Camera Anchor").transform;
+        animController = GetComponent<PlayerAnimController>();
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        horizontal = Input.GetAxis("Gamepad Horizontal");
-        vertical = Input.GetAxis("Gamepad Vertical");
-        HandleRotation();
 
+    // Update is called once per frame
+    //void Update ()
+    //   {
+    //       horizontal = Input.GetAxis("Gamepad Horizontal");
+    //       vertical = Input.GetAxis("Gamepad Vertical");
+    //       HandleRotation();   
+
+    //       if (controller.isGrounded)
+    //       {
+    //           Debug.Log("I am Grounded");
+
+    //           moveDirection = new Vector3(horizontal, 0, vertical);
+    //           moveDirection *= moveSpeed;
+    //           moveDirection.y = 0;
+
+    //           //if (Input.GetButton("Jump"))
+    //           //{
+    //           //    moveDirection.y = jumpStrength;
+    //           //    print("I am hitting Jump");
+    //           //}
+
+    //           //jumps = 0;
+    //       }
+    //       else
+    //       {
+    //           //player is in the air, applies gravity to player
+    //           moveDirection = new Vector3(horizontal, moveDirection.y, vertical);
+    //           moveDirection.x *= moveSpeed;
+    //           moveDirection.z *= moveSpeed;
+    //           moveDirection.y -= gravity;
+
+    //           //if (Input.GetButton("Jump") && (jumps < 1))
+    //           //{
+    //           //    moveDirection.y = jumpStrength;
+    //           //    print("I am hitting Jump in air");
+    //           //    buttonHeld = true;
+    //           //    jumps++;
+    //           //}
+
+    //       }
+
+    //       controller.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
+    //   }
+
+    public async Task<bool> HandleMovement(float xMove, float yMove)
+    {
         if (controller.isGrounded)
         {
+
             Debug.Log("I am Grounded");
 
-            moveDirection = new Vector3(horizontal, 0, vertical);
-            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection = new Vector3(xMove, 0, yMove);
             moveDirection *= moveSpeed;
-            moveDirection.y = gravity;
+            moveDirection.y = 0;
 
-            if (Input.GetButton("Jump"))
+            if (!alreadyGrounded)
             {
-                moveDirection.y = jumpStrength;
-                print("I am hitting Jump");
+                animController.setIsGrounded(true);
+                alreadyGrounded = true;
             }
 
-            jumps = 0;
         }
         else
         {
             //player is in the air, applies gravity to player
-            moveDirection = new Vector3(horizontal, moveDirection.y, vertical);
-            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection = new Vector3(xMove, moveDirection.y, yMove);
             moveDirection.x *= moveSpeed;
             moveDirection.z *= moveSpeed;
             moveDirection.y -= gravity;
-
-            if (Input.GetButton("Jump") && (jumps < 1))
-            {
-                moveDirection.y = jumpStrength;
-                print("I am hitting Jump in air");
-                buttonHeld = true;
-                jumps++;
-            }
-
+            alreadyGrounded = false;
         }
 
         controller.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
+        animController.setSpeedValue((Mathf.Abs(xMove) + Mathf.Abs(yMove)));
+        return true;
     }
 
     //Figures out degree amount by comparing the x and y axis of the left joystick. Creates a new rotation and spherically interpolates between the current rotation and new rotation
-    public async Task<bool> HandleRotation()
+    public async Task<bool> HandleRotation(float xAng, float yAng)
     {
 
         //calculates amount of degrees by comparing the x and y axis of the left joystick
-        if ((horizontal != 0) || (vertical != 0))
+        if ((xAng != 0) || (yAng != 0))
         {
-            turnAngle = Mathf.Atan2(horizontal, vertical) * (180 / Mathf.PI);
+            turnAngle = Mathf.Atan2(xAng, yAng) * (180 / Mathf.PI);
         }
         else
         {
@@ -98,5 +132,33 @@ public class CharacterMovement : MonoBehaviour
         rotInterp += Time.deltaTime;
 
         return true;
+    }
+
+    public void Jump()
+    {
+        if (controller.isGrounded)
+        {
+            moveDirection.y = jumpStrength;
+            jumps = 0;
+            print("Grounded is Called");
+            controller.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
+            animController.setJumpTrigger();
+        }
+        else
+        {
+            if(jumps < 1)
+            {
+                print("Air is called");
+                moveDirection.y = jumpStrength;
+                jumps++;
+                controller.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
+                animController.setJumpTrigger();
+            }
+        }
+    }
+
+    public void Dodge()
+    {
+
     }
 }
