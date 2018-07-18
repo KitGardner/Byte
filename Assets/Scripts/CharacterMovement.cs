@@ -16,7 +16,7 @@ public class CharacterMovement : MonoBehaviour
 
     private bool buttonHeld;
     private bool alreadyGrounded = false;
-    private int jumps;
+    private int extraJumps;
     private Vector3 moveDirection;
     private float horizontal;
     private float vertical;
@@ -86,6 +86,7 @@ public class CharacterMovement : MonoBehaviour
             moveDirection = new Vector3(xMove, 0, yMove);
             moveDirection *= moveSpeed;
             moveDirection.y = 0;
+            extraJumps = 0;
 
             if (!alreadyGrounded)
             {
@@ -101,6 +102,7 @@ public class CharacterMovement : MonoBehaviour
             moveDirection.x *= moveSpeed;
             moveDirection.z *= moveSpeed;
             moveDirection.y -= gravity;
+            animController.setIsGrounded(false);
             alreadyGrounded = false;
         }
 
@@ -139,18 +141,18 @@ public class CharacterMovement : MonoBehaviour
         if (controller.isGrounded)
         {
             moveDirection.y = jumpStrength;
-            jumps = 0;
             print("Grounded is Called");
             controller.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
             animController.setJumpTrigger();
+            extraJumps = 0;
         }
         else
         {
-            if(jumps < 1)
+            if(extraJumps < 1)
             {
                 print("Air is called");
                 moveDirection.y = jumpStrength;
-                jumps++;
+                extraJumps++;
                 controller.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
                 animController.setJumpTrigger();
             }

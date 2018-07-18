@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0
+  m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 0
+  m_ReflectionIntensity: 0.3
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
+  m_IndirectSpecularColor: {r: 0.25013113, g: 0.28044698, b: 0.32691035, a: 0.3}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -608,6 +608,8 @@ GameObject:
   - component: {fileID: 400396858}
   - component: {fileID: 400396857}
   - component: {fileID: 400396862}
+  - component: {fileID: 400396864}
+  - component: {fileID: 400396863}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Player
@@ -648,7 +650,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.13, z: 0}
+  m_Center: {x: 0, y: -0.1, z: 0}
 --- !u!23 &400396859
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -718,6 +720,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
+--- !u!135 &400396863
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 400396856}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 8
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &400396864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 400396856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ddf08a96f7a28a4f94ffa8c48ede6a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockedOnEnemy: {fileID: 0}
+  lockOnParticle: {fileID: 1429480221824782, guid: 9544bf71ce947754c83883e2e8bb21e8,
+    type: 2}
+  enemiesWithinLockRange: []
+  isAttacking: 0
+  canSwitch: 0
+  attackTimer: 0
+  maxAttackTime: 0
+  hitBoxScript: {fileID: 0}
+  usingGreatsword: 0
+  lightAttackCount: 0
+  camController: {fileID: 0}
+  cam: {fileID: 0}
+  playerAnim: {fileID: 0}
+  playerStats: {fileID: 0}
+  playerMove: {fileID: 0}
+  inputManager: {fileID: 0}
+  leftArmAbilityAnchor: {fileID: 0}
+  thrownStakes: {fileID: 0}
 --- !u!1001 &403916438
 Prefab:
   m_ObjectHideFlags: 0

@@ -111,15 +111,23 @@ public class PlayerCombat : MonoBehaviour
 
 					//spawns particle effect to show what enemy is locked on. Will be switched later with proper graphic
 					lockOnInstance = Instantiate (lockOnParticle);
-				}
+
+                    //var particleEffectOffset = new Vector3(0, lockedOnEnemy.GetComponent<CapsuleCollider>().height, 0);
+
+                   // print(particleEffectOffset.x + " " + particleEffectOffset.y + " " + particleEffectOffset.z);
+
+                    //Sets the lock on graphic to the position of the locked on enemy
+                    lockOnInstance.transform.position = new Vector3(lockedOnEnemy.transform.position.x, 0.2f, lockedOnEnemy.transform.position.z);
+                     // lockOnInstance.transform.position = (lockedOnEnemy.transform.position - particleEffectOffset);
+                }
 			}
 		}
 
 		//checks if the player is locked on to an enemy
 		if (targetLocked) 
 		{
-			//Sets the lock on graphic to the position of the locked on enemy
-			lockOnInstance.transform.position = lockedOnEnemy.transform.position;
+			////Sets the lock on graphic to the position of the locked on enemy
+			//lockOnInstance.transform.position = lockedOnEnemy.transform.position;
 
 			//Checks for when the player releases LT
 			if ((Input.GetAxis ("Gamepad LT") <= 0.0f) || (enemiesWithinLockRange.Count <= 0)) 
