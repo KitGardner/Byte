@@ -15,6 +15,7 @@ public class CharacterMovement : MonoBehaviour
 
 
     private bool buttonHeld;
+    private bool grounded = false;
     private bool alreadyGrounded = false;
     private int extraJumps;
     private Vector3 moveDirection;
@@ -24,6 +25,13 @@ public class CharacterMovement : MonoBehaviour
     private float rotInterp;
     private Quaternion nextRot;
     private PlayerAnimController animController;
+    private float airTimer = 0f;
+
+
+    public void Awake()
+    {
+        InputManager.Inputs["Jump"].listeners.Add(Jump);
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -78,18 +86,21 @@ public class CharacterMovement : MonoBehaviour
 
     public async Task<bool> HandleMovement(float xMove, float yMove)
     {
+        grounded |= controller.isGrounded;
+
         if (controller.isGrounded)
         {
+            airTimer = 0;
 
             Debug.Log("I am Grounded");
 
             moveDirection = new Vector3(xMove, 0, yMove);
             moveDirection *= moveSpeed;
             moveDirection.y = 0;
-            extraJumps = 0;
 
             if (!alreadyGrounded)
             {
+                extraJumps = 0;
                 animController.setIsGrounded(true);
                 alreadyGrounded = true;
             }
@@ -97,13 +108,22 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
+            airTimer += Time.deltaTime;
+
             //player is in the air, applies gravity to player
             moveDirection = new Vector3(xMove, moveDirection.y, yMove);
             moveDirection.x *= moveSpeed;
             moveDirection.z *= moveSpeed;
-            moveDirection.y -= gravity;
-            animController.setIsGrounded(false);
-            alreadyGrounded = false;
+
+            if (airTimer >= 0.2f)
+            {
+                grounded = false;
+                moveDirection.y -= gravity;
+                animController.setIsGrounded(false);
+                alreadyGrounded = false;
+            }
+
+
         }
 
         controller.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
@@ -136,15 +156,15 @@ public class CharacterMovement : MonoBehaviour
         return true;
     }
 
+    //SO FREAKING CLOSE! Now I have an issue where depending on the direction I am going it won't work as intended.
     public void Jump()
     {
-        if (controller.isGrounded)
+        if (grounded)
         {
             moveDirection.y = jumpStrength;
             print("Grounded is Called");
             controller.Move(cam.transform.TransformDirection(moveDirection) * Time.deltaTime);
             animController.setJumpTrigger();
-            extraJumps = 0;
         }
         else
         {
