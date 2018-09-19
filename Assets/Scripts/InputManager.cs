@@ -19,36 +19,17 @@ public class InputManager : MonoBehaviour
     public InteractiveObject InteractObj;
     public bool gamePaused;
 
-    //TODO Create a new dictionary mapping controller buttons to game action descriptions stored in Inputs Dictionary
-    //This looks like it is too much. Consider easier way that allows more customized button mapping. Perhaps each value should be a List of InputButtonState objects.
-    public Dictionary<string, InputButtonState> InputMapper = new Dictionary<string, InputButtonState>()
+    //Stores all of the possible inputs and default values. Will be used to store all inputs for the given frame.
+    private Dictionary<string, bool> inputMapper = new Dictionary<string, bool>()
     {
-        { "A", new InputButtonState("Jump") },
-        { "B", new InputButtonState("SpecialAbility") },
-        { "X", new InputButtonState("LightAttack") },
-        { "Y", new InputButtonState("HeavyAttack") },
-        { "Start", new InputButtonState("StartButton") },
-        { "RB", new InputButtonState("WeaponToggleRight") },
-        { "LB", new InputButtonState("WeaponToggleLeft") },
-        { "LT", new InputButtonState("LockOnButton") },
-        { "RT", new InputButtonState("ChangeAbilityButton") }
+        { "JumpButtonPressed", false },
+        { "LightAttackButtonPressed", false },
+        { "HeavyAttackButtonPressed", false },
+        { "SpecialActionButtonPressed", false },
+        { "GamepadStartButtonPressed", false},
+        { "GamepadRbButtonPressed", false },
+        { "GamepadLbButtonPressed", false },
     };
-
-    //Dictionary for storing listeners to each pressed button
-    public static Dictionary<string, InputButtonMessenger> Inputs = new Dictionary<string, InputButtonMessenger>()
-    {
-        {"Jump", new InputButtonMessenger() },
-        { "LightAttack", new InputButtonMessenger() },
-        { "HeavyAttack", new InputButtonMessenger() },
-        { "SpecialAbility", new InputButtonMessenger() },
-        { "StartButton", new InputButtonMessenger() },
-        { "WeaponToggleLeft", new InputButtonMessenger() },
-        { "WeaponToggleRight", new InputButtonMessenger() },
-        { "LockOnButton", new InputButtonMessenger() },
-        { "ChangeAbilityButton", new InputButtonMessenger() }
-    };
-
-
 
     void Awake()
     {
@@ -68,51 +49,63 @@ public class InputManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        //   //Seems to have about an 80% responsiveness. Perhaps a release build works better?
-        //if(Input.GetButtonDown("Gamepad Jump"))
-        //   {
-        //       switch(playerState)
-        //       {
-        //           case playerStates.lockedOn:
-        //               playerMove.Dodge();
-        //               break;
-        //           case playerStates.Interacting:
-        //               InteractObj.Interact();
-        //               break;
-        //           case playerStates.freeRoam:
-        //                   playerMove.Jump();
-        //               break;
-        //           default:
-        //               break;
-
-        //       }
+        inputMapper["JumpButtonPressed"] |= Input.GetButtonDown("Gamepad Jump");
+        inputMapper["LightAttackButtonPressed"] |= Input.GetButtonDown("Gamepad Light Attack");
+        inputMapper["HeavyAttackButtonPressed"] |= Input.GetButtonDown("Gamepad Heavy Attack");
+        inputMapper["SpecialAttackButtonPressed"] |= Input.GetButtonDown("Gamepad B");
+        inputMapper["GamepadStartButtonPressed"] |= Input.GetButtonDown("Gamepad Start");
+        inputMapper["GamepadRbButtonPressed"] |= Input.GetButtonDown("Gamepad Weapon Toggle Right");
+        inputMapper["GamepadLbButtonPressed"] |= Input.GetButtonDown("Gamepad Weapon Toggle Left");
 
 
-        //   }
+        HandleInputs(inputMapper);
 
-        InputMapper["A"].Value |= Input.GetButtonDown("Jump");
+        //Seems to have about an 80% responsiveness. Perhaps a release build works better?
+	    //if (Input.GetButtonDown("Gamepad Jump"))
+     //   {
+     //       switch(playerState)
+     //       {
+     //           case playerStates.lockedOn:
+     //               playerMove.Dodge();
+     //               break;
+     //           case playerStates.Interacting:
+     //               InteractObj.Interact();
+     //               break;
+     //           case playerStates.freeRoam:
+     //                   playerMove.Jump();
+     //               break;
+     //           default:
+     //               break;
+                
+     //       }
+               
 
-        HandleInputs();
+     //   }
 
-        var horizontal = Input.GetAxis("Horizontal");
-        var vertical = Input.GetAxis("Vertical");
+     //   var horizontal = Input.GetAxis("Gamepad Horizontal");
+     //   var vertical = Input.GetAxis("Gamepad Vertical");
 
-        playerMove.HandleMovement(horizontal, vertical);
-        playerMove.HandleRotation(horizontal, vertical);
+     //   playerMove.HandleMovement(horizontal, vertical);
+     //   playerMove.HandleRotation(horizontal, vertical);
 
-        checkForAttackInput();
+     //   checkForAttackInput();
 
-        if(Input.GetButtonDown("Gamepad B"))
-        {
-            playerCombat.usingLeftArm();
-        }
+     //   if(Input.GetButtonDown("Gamepad B"))
+     //   {
+     //       playerCombat.usingLeftArm();
+     //   }
 
-        if(Input.GetButtonDown("Gamepad Start"))
-        {
-            PauseGame();
-        }
+     //   if(Input.GetButtonDown("Gamepad Start"))
+     //   {
+     //       PauseGame();
+     //   }
 
 	}
+
+    private void HandleInputs(Dictionary<string, bool> inputs)
+    {
+
+    }
 
     public void setPlayerInteraction(bool interacting, InteractiveObject interactingObject)
     {
