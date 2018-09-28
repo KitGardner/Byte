@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: c51ceac4129d9b24c94b50d6e5782680
-timeCreated: 1500132343
-licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: Beta_HighJointsGeo
     100002: Beta_HighLimbsGeo
@@ -155,29 +153,58 @@ ModelImporter:
     13700000: Beta_HighJointsGeo
     13700002: Beta_HighLimbsGeo
     13700004: Beta_HighTorsoGeo
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beta_Body_MAT
+    second: {fileID: 2100000, guid: df43a89853c725248abda83b0be10ac6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beta_Joints_MAT
+    second: {fileID: 2100000, guid: 37c16f0359f368445a75a58d17339320, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: "\nClip 'mixamo.com' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
       improve retargeting quality.\n\t'Spine2' is inbetween humanoid transforms and
       has rotation animation that will be discarded.\n"
-    animationRetargetingWarnings: 
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'mixamo.com':\n\tRightLowerLeg
+      average position error 0.5 mm and maximum position error 7.0 mm at time 0:21
+      (46.7%) Frame 21\n\tLeftUpperArm average position error 13.0 mm and maximum
+      position error 28.8 mm at time 0:22 (48.9%) Frame 22\n\tLeftLowerArm average
+      position error 10.3 mm and maximum position error 28.9 mm at time 0:22 (48.9%)
+      Frame 22\n\tLeftHand average position error 8.5 mm and maximum position error
+      26.7 mm at time 0:22 (48.9%) Frame 22\n\tRightUpperArm average position error
+      6.6 mm and maximum position error 19.8 mm at time 0:19 (42.2%) Frame 19\n\tRightLowerArm
+      average position error 5.6 mm and maximum position error 20.8 mm at time 0:19
+      (42.2%) Frame 19\n\tRightHand average position error 4.7 mm and maximum position
+      error 16.2 mm at time 0:19 (42.2%) Frame 19\n\tHead average position error 11.6
+      mm and maximum position error 29.2 mm at time 0:21 (46.7%) Frame 21\n"
     animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: mixamo.com
@@ -355,13 +382,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -371,6 +403,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

@@ -26,7 +26,7 @@ public class PlayerCombat : MonoBehaviour
 	public Transform cam;
     public PlayerAnimController playerAnim;
     public PlayerStats playerStats;
-    public PlayerMovement playerMove;
+    public CharacterMovement playerMove;
     public InputManager inputManager;
     public Transform leftArmAbilityAnchor;
 
@@ -68,7 +68,11 @@ public class PlayerCombat : MonoBehaviour
 	
 	}*/
 
-    
+
+    void Awake()
+    {
+        InputManager.AxisMessages["LT"].listeners.Add(HandleLockOn);
+    }
 
 	// Use this for initialization
 	void Start () 
@@ -78,7 +82,7 @@ public class PlayerCombat : MonoBehaviour
 		camController = GameObject.FindGameObjectWithTag ("Camera Controller").GetComponent<CameraBehavior> ();
         playerAnim = GetComponent<PlayerAnimController>();
         playerStats = GetComponent<PlayerStats>();
-        playerMove = GetComponent<PlayerMovement>();
+        playerMove = GetComponent<CharacterMovement>();
         inputManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<InputManager>();
         leftArmAbilityAnchor = GameObject.FindGameObjectWithTag("LeftArmAnchor").transform;
 		//chainAttacks.Add (attackOne);
@@ -86,13 +90,13 @@ public class PlayerCombat : MonoBehaviour
 		//chainAttacks.Add (attackThree);
 		//chainAttacks.Add (attackFour);
 	}
-	
-	// Update is called once per frame
-	void Update () 
+
+    //Handles Lock on Mechanic. Second parameter is arbirtrary but need to work with messager.
+    public async void HandleLockOn(float axis, float axis2 = 0f) 
 	{
         #region Lock On Section
         //if LT is pressed. Runs every frame LT is held
-        if (Input.GetAxis ("Gamepad LT") > 0.0f)
+        if (axis > 0.0f)
 		{
             //print("LT is being pressed");
 			//checks if there are any enemies within lock on range
@@ -107,7 +111,7 @@ public class PlayerCombat : MonoBehaviour
 					//sets camera to look at locked on enemy
 					camController.playerLockedOn = true;
 					camController.enemyToLookAt = lockedOnEnemy.transform;
-                    inputManager.playerState = InputManager.playerStates.lockedOn;
+                    playerMove.playerState = CharacterMovement.playerStates.lockedOn;
 
 					//spawns particle effect to show what enemy is locked on. Will be switched later with proper graphic
 					lockOnInstance = Instantiate (lockOnParticle);
@@ -130,12 +134,12 @@ public class PlayerCombat : MonoBehaviour
 			//lockOnInstance.transform.position = lockedOnEnemy.transform.position;
 
 			//Checks for when the player releases LT
-			if ((Input.GetAxis ("Gamepad LT") <= 0.0f) || (enemiesWithinLockRange.Count <= 0)) 
+			if ((axis <= 0.0f) || (enemiesWithinLockRange.Count <= 0)) 
 			{
 				//disables lock on
 				lockedOnEnemy = null;
 				targetLocked = false;
-                inputManager.playerState = InputManager.playerStates.freeRoam;
+                playerMove.playerState = CharacterMovement.playerStates.freeRoam;
 
                 //sets camera to normal behaviour
                 camController.playerLockedOn = false;
@@ -199,7 +203,7 @@ public class PlayerCombat : MonoBehaviour
                 playerAnim.anim.applyRootMotion = false;
                 isAttacking = false;
                 usingGreatsword = false;
-                playerMove.isAttacking = false;
+                //playerMove.isAttacking = false;
                 lightAttackCount = 0;
                 playerStats.canSwitchWeapons = true;
                 playerStats.unequipWeapon();
@@ -387,7 +391,8 @@ public class PlayerCombat : MonoBehaviour
     {
         playerAnim.anim.applyRootMotion = true;
         isAttacking = true;
-        playerMove.faceEnemyWhenAttacking();
+        //TODO add this functionality to Character Movement
+        //playerMove.faceEnemyWhenAttacking();
         if (!(playerStats.weaponEquipped))
             playerStats.placeWeaponInHand();
         playerStats.canSwitchWeapons = false;
@@ -400,7 +405,8 @@ public class PlayerCombat : MonoBehaviour
     {
         playerAnim.anim.applyRootMotion = true;
         isAttacking = true;
-        playerMove.faceEnemyWhenAttacking();
+        //TODO add this functionality to Character Movement
+        //playerMove.faceEnemyWhenAttacking();
         if (!(playerStats.weaponEquipped))
             playerStats.placeWeaponInHand();
         playerStats.canSwitchWeapons = false;
@@ -412,7 +418,8 @@ public class PlayerCombat : MonoBehaviour
     public void usingLeftArm()
     {
         playerAnim.anim.applyRootMotion = true;
-        playerMove.faceEnemyWhenAttacking();
+        //TODO add this functionality to Character Movement
+        //playerMove.faceEnemyWhenAttacking();
         playerAnim.usingLeftArm(true);
 
         if(playerStats.curArmSkill == "Stakes")

@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public enum playerStates
-    {
-        freeRoam,
-        lockedOn,
-        Interacting
-    };
+    //public enum playerStates
+    //{
+    //    freeRoam,
+    //    lockedOn,
+    //    Interacting
+    //};
 
 
-    public playerStates playerState;
+    //public playerStates playerState;
     public CharacterMovement playerMove;
     public PlayerCombat playerCombat;
     public InteractiveObject InteractObj;
@@ -31,6 +31,30 @@ public class InputManager : MonoBehaviour
         { "GamepadLbButtonPressed", false },
     };
 
+    //Dictionary for storing listeners to each pressed button
+    public static Dictionary<string, InputButtonMessenger> Inputs = new Dictionary<string, InputButtonMessenger>()
+    {
+        {"Jump", new InputButtonMessenger() },
+        { "LightAttack", new InputButtonMessenger() },
+        { "HeavyAttack", new InputButtonMessenger() },
+        { "SpecialAbility", new InputButtonMessenger() },
+        { "StartButton", new InputButtonMessenger() },
+        { "WeaponToggleLeft", new InputButtonMessenger() },
+        { "WeaponToggleRight", new InputButtonMessenger() },
+        { "LockOnButton", new InputButtonMessenger() },
+        { "ChangeAbilityButton", new InputButtonMessenger() }
+    };
+
+    public static Dictionary<string, InputAxisMessenger> AxisMessages = new Dictionary<string, InputAxisMessenger>()
+    {
+        { "Right Joystick", new InputAxisMessenger("Camera Rotation")},
+        { "Left Joystick", new InputAxisMessenger("Player Movement")},
+        { "LT", new InputAxisMessenger("Lock On") }
+    };
+
+
+
+
     void Awake()
     {
         DontDestroyOnLoad(this);
@@ -42,7 +66,7 @@ public class InputManager : MonoBehaviour
     {
         playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterMovement>();
         //playerCombat = playerMove.gameObject.GetComponent<PlayerCombat>();
-        playerState = playerStates.freeRoam;
+        //playerState = playerStates.freeRoam;
         gamePaused = false;	
 	}
 	
@@ -80,20 +104,25 @@ public class InputManager : MonoBehaviour
      //       }
                
 
-     //   }
+        InputMapper["A"].Value |= Input.GetButtonDown("Gamepad Jump");
 
      //   var horizontal = Input.GetAxis("Gamepad Horizontal");
      //   var vertical = Input.GetAxis("Gamepad Vertical");
 
-     //   playerMove.HandleMovement(horizontal, vertical);
-     //   playerMove.HandleRotation(horizontal, vertical);
+        AxisMessages["Right Joystick"].XValue = Input.GetAxis("Gamepad Camera X");
+        AxisMessages["Right Joystick"].YValue = Input.GetAxis("Gamepad Camera Y");
+        AxisMessages["Left Joystick"].XValue = Input.GetAxis("Gamepad Horizontal");
+        AxisMessages["Left Joystick"].YValue = Input.GetAxis("Gamepad Vertical");
+        AxisMessages["LT"].XValue = Input.GetAxis("Gamepad LT");
 
-     //   checkForAttackInput();
+        HandleAxis();
+        //var horizontal = Input.GetAxis("Horizontal");
+        //var vertical = Input.GetAxis("Vertical");
 
-     //   if(Input.GetButtonDown("Gamepad B"))
-     //   {
-     //       playerCombat.usingLeftArm();
-     //   }
+        //playerMove.HandleMovement(horizontal, vertical);
+        //playerMove.HandleRotation(horizontal, vertical);
+
+        checkForAttackInput();
 
      //   if(Input.GetButtonDown("Gamepad Start"))
      //   {
@@ -102,20 +131,15 @@ public class InputManager : MonoBehaviour
 
 	}
 
-    private void HandleInputs(Dictionary<string, bool> inputs)
-    {
+    //public void setPlayerInteraction(bool interacting, InteractiveObject interactingObject)
+    //{
+    //    InteractObj = interactingObject;
 
-    }
-
-    public void setPlayerInteraction(bool interacting, InteractiveObject interactingObject)
-    {
-        InteractObj = interactingObject;
-
-        if (interacting)
-            playerState = playerStates.Interacting;
-        else
-            playerState = playerStates.freeRoam;
-    }
+    //    if (interacting)
+    //        playerState = playerStates.Interacting;
+    //    else
+    //        playerState = playerStates.freeRoam;
+    //}
 
     void PauseGame()
     {
@@ -159,6 +183,16 @@ public class InputManager : MonoBehaviour
             InputMapper[key].Value = false;
         }
     }
+
+    private async void HandleAxis()
+    {
+        foreach (var key in AxisMessages.Keys)
+        {
+            float xVal = AxisMessages[key].XValue;
+            float yVal = AxisMessages[key].YValue;
+            AxisMessages[key].SendInputMessage(xVal, yVal);           
+        }
+    }
 }
 
 public class InputButtonState
@@ -195,5 +229,60 @@ public class InputButtonMessenger
         }
 
         return true;
+    }
+}
+
+public class InputAxisState
+{
+    public string Name { get; set; }
+    public float XValue { get; set; }
+    public float YValue { get; set; }
+
+    public InputAxisState(string buttonName)
+    {
+        this.Name = buttonName;
+        this.XValue = 0f;
+        this.YValue = 0f;
+    }
+}
+
+public class InputAxisMessenger
+{
+    public delegate void messageDel(float horizontal, float vertical = 0f);
+
+    public List<messageDel> listeners;
+
+    public string Name { get; set; }
+    public float XValue { get; set; }
+    public float YValue { get; set; }
+
+    public InputAxisMessenger(string Name)
+    {
+        this.listeners = new List<messageDel>();
+        this.Name = Name;
+        this.XValue = 0f;
+        this.YValue = 0f;
+    }
+
+    public async void SendInputMessage(float horizontal, float vertical)
+    {
+        if (listeners.Count == 0)
+            return;
+
+        foreach (var listener in listeners)
+        {
+            listener(horizontal, vertical);
+        }
+    }
+
+    public async void SendInputMessage(float Axis)
+    {
+        if (listeners.Count == 0)
+            return;
+
+        foreach (var listener in listeners)
+        {
+            listener(Axis);
+        }
     }
 }

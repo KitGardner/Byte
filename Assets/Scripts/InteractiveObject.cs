@@ -6,9 +6,9 @@ public abstract class InteractiveObject : MonoBehaviour
 {
     public InputManager inputManager;
 
-    public void setPlayerInteractivity(bool interacting)
+    public void setPlayerInteractivity(bool interacting, CharacterMovement charMove, InteractiveObject intObj)
     {
-        inputManager.setPlayerInteraction(interacting, this);
+        charMove.setPlayerInteraction(interacting, intObj);
     }
 
     public abstract void Interact();

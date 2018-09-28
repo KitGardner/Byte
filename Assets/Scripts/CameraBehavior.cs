@@ -26,6 +26,10 @@ public class CameraBehavior : MonoBehaviour
 
 
 
+    void Awake()
+    {
+        InputManager.AxisMessages["Right Joystick"].listeners.Add(CameraMovement);
+    }
 
 	// Use this for initialization
 	void Start () 
@@ -37,7 +41,7 @@ public class CameraBehavior : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	public async void CameraMovement (float horizontal, float vertical) 
 	{
 		//updates camera anchor position to keep up with player position
 		transform.position = target.position;
@@ -64,7 +68,7 @@ public class CameraBehavior : MonoBehaviour
 		else 
 		{
 			//calls a function to handle camera rotation input and set pitch limits
-			rotateCamera ();
+			rotateCamera (horizontal, vertical);
 		}
 
 		//updates the camera followers Y rotation to keep track of camera facing direction
@@ -73,11 +77,11 @@ public class CameraBehavior : MonoBehaviour
 	}
 
 	//handle input from the right joystick, spins camera and sets pitch limits between 5 and 75 degrees
-	void rotateCamera()
+	private void rotateCamera(float camHorizontal, float camVertical)
 	{
 		//gets input from right joystick
-		float horizontalSpin = Input.GetAxis ("Gamepad Camera X");
-		float VerticalSpin = Input.GetAxis ("Gamepad Camera Y");
+		float horizontalSpin = camHorizontal;
+		float VerticalSpin = camVertical;
 
 
 		//if player is moving right joystick on its X axis	
