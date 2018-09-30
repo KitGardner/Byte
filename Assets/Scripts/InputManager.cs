@@ -18,17 +18,19 @@ public class InputManager : MonoBehaviour
     public PlayerCombat playerCombat;
     public InteractiveObject InteractObj;
     public bool gamePaused;
+    public static bool InputsEnabled = true;
 
     //Stores all of the possible inputs and default values. Will be used to store all inputs for the given frame.
-    private Dictionary<string, bool> inputMapper = new Dictionary<string, bool>()
+    private Dictionary<string, InputButtonState> InputMapper = new Dictionary<string, InputButtonState>()
     {
-        { "JumpButtonPressed", false },
-        { "LightAttackButtonPressed", false },
-        { "HeavyAttackButtonPressed", false },
-        { "SpecialActionButtonPressed", false },
-        { "GamepadStartButtonPressed", false},
-        { "GamepadRbButtonPressed", false },
-        { "GamepadLbButtonPressed", false },
+        { "JumpButtonPressed", new InputButtonState("Jump")},
+        { "LightAttackButtonPressed", new InputButtonState("LightAttack") },
+        { "HeavyAttackButtonPressed", new InputButtonState("HeavyAttack") },
+        { "SpecialActionButtonPressed", new InputButtonState("SpecialAbility")},
+        { "GamepadStartButtonPressed", new InputButtonState("StartButton")},
+        { "GamepadRbButtonPressed", new InputButtonState("WeaponToggleRight") },
+        { "GamepadLbButtonPressed", new InputButtonState("WeaponToggleLeft") },
+        { "GamepadRtButtonPressed", new InputButtonState("ChangeAbilityButton")}
     };
 
     //Dictionary for storing listeners to each pressed button
@@ -73,56 +75,29 @@ public class InputManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        inputMapper["JumpButtonPressed"] |= Input.GetButtonDown("Gamepad Jump");
-        inputMapper["LightAttackButtonPressed"] |= Input.GetButtonDown("Gamepad Light Attack");
-        inputMapper["HeavyAttackButtonPressed"] |= Input.GetButtonDown("Gamepad Heavy Attack");
-        inputMapper["SpecialAttackButtonPressed"] |= Input.GetButtonDown("Gamepad B");
-        inputMapper["GamepadStartButtonPressed"] |= Input.GetButtonDown("Gamepad Start");
-        inputMapper["GamepadRbButtonPressed"] |= Input.GetButtonDown("Gamepad Weapon Toggle Right");
-        inputMapper["GamepadLbButtonPressed"] |= Input.GetButtonDown("Gamepad Weapon Toggle Left");
+
+        if (InputsEnabled)
+        {
+            InputMapper["JumpButtonPressed"].Value |= Input.GetButtonDown("Gamepad Jump");
+            InputMapper["LightAttackButtonPressed"].Value |= Input.GetButtonDown("Gamepad X");
+            InputMapper["HeavyAttackButtonPressed"].Value |= Input.GetButtonDown("Gamepad Y");
+            InputMapper["SpecialActionButtonPressed"].Value |= Input.GetButtonDown("Gamepad B");
+            InputMapper["GamepadStartButtonPressed"].Value |= Input.GetButtonDown("Gamepad Start");
+            InputMapper["GamepadRbButtonPressed"].Value |= Input.GetButtonDown("Weapon Toggle Right");
+            InputMapper["GamepadLbButtonPressed"].Value |= Input.GetButtonDown("Weapon Toggle Left");
+            InputMapper["GamepadRtButtonPressed"].Value |= Input.GetButtonDown("Gamepad RT");
+
+            HandleInputs();
 
 
-        HandleInputs(inputMapper);
+            AxisMessages["Right Joystick"].XValue = Input.GetAxis("Gamepad Camera X");
+            AxisMessages["Right Joystick"].YValue = Input.GetAxis("Gamepad Camera Y");
+            AxisMessages["Left Joystick"].XValue = Input.GetAxis("Gamepad Horizontal");
+            AxisMessages["Left Joystick"].YValue = Input.GetAxis("Gamepad Vertical");
+            AxisMessages["LT"].XValue = Input.GetAxis("Gamepad LT");
 
-        //Seems to have about an 80% responsiveness. Perhaps a release build works better?
-	    //if (Input.GetButtonDown("Gamepad Jump"))
-     //   {
-     //       switch(playerState)
-     //       {
-     //           case playerStates.lockedOn:
-     //               playerMove.Dodge();
-     //               break;
-     //           case playerStates.Interacting:
-     //               InteractObj.Interact();
-     //               break;
-     //           case playerStates.freeRoam:
-     //                   playerMove.Jump();
-     //               break;
-     //           default:
-     //               break;
-                
-     //       }
-               
-
-        InputMapper["A"].Value |= Input.GetButtonDown("Gamepad Jump");
-
-     //   var horizontal = Input.GetAxis("Gamepad Horizontal");
-     //   var vertical = Input.GetAxis("Gamepad Vertical");
-
-        AxisMessages["Right Joystick"].XValue = Input.GetAxis("Gamepad Camera X");
-        AxisMessages["Right Joystick"].YValue = Input.GetAxis("Gamepad Camera Y");
-        AxisMessages["Left Joystick"].XValue = Input.GetAxis("Gamepad Horizontal");
-        AxisMessages["Left Joystick"].YValue = Input.GetAxis("Gamepad Vertical");
-        AxisMessages["LT"].XValue = Input.GetAxis("Gamepad LT");
-
-        HandleAxis();
-        //var horizontal = Input.GetAxis("Horizontal");
-        //var vertical = Input.GetAxis("Vertical");
-
-        //playerMove.HandleMovement(horizontal, vertical);
-        //playerMove.HandleRotation(horizontal, vertical);
-
-        checkForAttackInput();
+            HandleAxis();
+        }
 
      //   if(Input.GetButtonDown("Gamepad Start"))
      //   {

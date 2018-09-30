@@ -59,7 +59,7 @@ public class PlayerStats : MonoBehaviour
 		//charMaterial = GameObject.FindGameObjectWithTag ("Material Tester").GetComponent<Renderer>().material;
 		hudManager = GameObject.FindGameObjectWithTag ("Game HUD").GetComponent<HUDManager> ();
 		hudManager.setAbilityIcon (skillIndex);
-		playerAnim = GetComponent<PlayerAnimController> ();
+		playerAnim = GetComponentInChildren<PlayerAnimController>();
 		virusCurStallTime = 0.0f;
 		virusStallMaxTime = 0.0f;
         canSwitchWeapons = true;

@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -13,6 +12,7 @@ public class DoorwayScript : InteractiveObject
     private GameObject tempLockedParticle;
     private CharacterMovement charMove;
     private BoxCollider collider;
+    public CinematicsManager cinematics;
 
     // Use this for initialization
     void Start () 
@@ -21,6 +21,7 @@ public class DoorwayScript : InteractiveObject
         inputManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<InputManager>();
         collider = GetComponent<BoxCollider>();
 		playerAtThreshold = false;
+        cinematics = GameObject.FindGameObjectWithTag("Cinematics Manager").GetComponent<CinematicsManager>();
 	}
 	
 	
@@ -52,11 +53,18 @@ public class DoorwayScript : InteractiveObject
             levelManager.LoadScene(levelToLoad);
         else
         {
-            if (tempLockedParticle == null)
-            {
-                tempLockedParticle = Instantiate(DoorLockedParticle, this.transform.position + new Vector3(0, -8, 1), Quaternion.identity);
-                //this.collider.enabled = false;
-            }
+            print("I am interacting");
+
+            cinematics.EnableCinematic();
+        }
+    }
+
+    public void SpawnBarrier()
+    {
+        if (tempLockedParticle == null)
+        {
+            tempLockedParticle = Instantiate(DoorLockedParticle, this.transform.position + new Vector3(0, -8, 1), Quaternion.identity);
+            //this.collider.enabled = false;
         }
     }
 }

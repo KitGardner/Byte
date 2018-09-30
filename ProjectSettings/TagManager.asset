@@ -13,6 +13,7 @@ TagManager:
   - Camera Controller
   - Game Manager
   - LeftArmAnchor
+  - Cinematics Manager
   layers:
   - Default
   - TransparentFX

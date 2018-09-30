@@ -11,7 +11,7 @@ public class PlayerAnimController : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		anim = GetComponentInChildren<Animator> ();
+		anim = GetComponentInChildren<Animator>();
 	}
 
     #region animation switching functions
@@ -55,7 +55,7 @@ public class PlayerAnimController : MonoBehaviour
         switch (weaponName)
         {
             case "Sword":
-                anim.SetBool("Using Greatsword", isAttacking);
+                anim.SetBool("HasGreatSword", isAttacking);
                 break;
             case "Hammer":
                 anim.SetBool("Using Warhammer", isAttacking);

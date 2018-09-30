@@ -72,13 +72,14 @@ public class PlayerCombat : MonoBehaviour
     void Awake()
     {
         InputManager.AxisMessages["LT"].listeners.Add(HandleLockOn);
+        InputManager.Inputs["LightAttack"].listeners.Add(usingLightAttack);
     }
 
 	// Use this for initialization
 	void Start () 
 	{
 		//Initialize all object references and starting values. Add attack animations to list
-		cam = GameObject.FindGameObjectWithTag ("Camera Anchor").transform;
+		cam = GameObject.FindGameObjectWithTag("Camera Anchor").transform;
 		camController = GameObject.FindGameObjectWithTag ("Camera Controller").GetComponent<CameraBehavior> ();
         playerAnim = GetComponent<PlayerAnimController>();
         playerStats = GetComponent<PlayerStats>();
@@ -387,17 +388,17 @@ public class PlayerCombat : MonoBehaviour
 		return enemiesWithinLockRange [farthestEnemyIndex];
 	}
 
-    public void usingLightAttack()
+    public async void usingLightAttack()
     {
-        playerAnim.anim.applyRootMotion = true;
+        playerAnim.anim.applyRootMotion = false;
         isAttacking = true;
         //TODO add this functionality to Character Movement
         //playerMove.faceEnemyWhenAttacking();
-        if (!(playerStats.weaponEquipped))
+        /*if (!(playerStats.weaponEquipped))
             playerStats.placeWeaponInHand();
-        playerStats.canSwitchWeapons = false;
+        playerStats.canSwitchWeapons = false;*/
 
-        playerAnim.isAttacking(isAttacking, playerStats.weaponName);
+        playerAnim.isAttacking(isAttacking, "Sword");
         playerAnim.lightAttack();
     }
 

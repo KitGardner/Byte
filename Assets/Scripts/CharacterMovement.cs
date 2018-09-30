@@ -170,6 +170,20 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
+    public bool MoveToPosition(Vector3 endPos)
+    {
+        var direction = endPos - transform.position;
+        var distance = Vector3.Distance(transform.position, endPos);
+        while(distance > 0.1f)
+        {
+            controller.Move(direction * Time.deltaTime);
+            animController.setSpeedValue(0.3f);
+            distance = Vector3.Distance(transform.position, endPos);
+        }
+
+        return true;
+    }
+
     public void setPlayerInteraction(bool interacting, InteractiveObject interactingObject)
     {
         InteractObj = interactingObject;
