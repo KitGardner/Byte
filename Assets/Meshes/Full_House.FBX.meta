@@ -1,0 +1,299 @@
+fileFormatVersion: 2
+guid: 93e902c7661aabd44be0bf176b0bf2e8
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: door arch
+    100002: //RootNode
+    100004: great_window
+    100006: great_window001
+    100008: House_main
+    100010: Observation_window
+    100012: small_window
+    100014: small_window001
+    100016: small_window002
+    100018: small_window003
+    100020: small_window004
+    100022: small_window005
+    100024: small_window006
+    100026: small_window007
+    100028: small_window008
+    100030: small_window009
+    100032: small_window010
+    100034: small_window011
+    100036: small_window012
+    100038: small_window013
+    100040: small_window014
+    100042: small_window015
+    100044: small_window016
+    100046: small_window017
+    100048: small_window018
+    100050: small_window019
+    100052: small_window020
+    100054: small_window021
+    100056: small_window022
+    100058: small_window023
+    100060: spire
+    100062: spire001
+    100064: spire002
+    100066: spire003
+    100068: spire004
+    100070: spire005
+    400000: door arch
+    400002: //RootNode
+    400004: great_window
+    400006: great_window001
+    400008: House_main
+    400010: Observation_window
+    400012: small_window
+    400014: small_window001
+    400016: small_window002
+    400018: small_window003
+    400020: small_window004
+    400022: small_window005
+    400024: small_window006
+    400026: small_window007
+    400028: small_window008
+    400030: small_window009
+    400032: small_window010
+    400034: small_window011
+    400036: small_window012
+    400038: small_window013
+    400040: small_window014
+    400042: small_window015
+    400044: small_window016
+    400046: small_window017
+    400048: small_window018
+    400050: small_window019
+    400052: small_window020
+    400054: small_window021
+    400056: small_window022
+    400058: small_window023
+    400060: spire
+    400062: spire001
+    400064: spire002
+    400066: spire003
+    400068: spire004
+    400070: spire005
+    2100000: Front Door
+    2100002: Great Windows
+    2100004: Obs Window
+    2100006: Small Window
+    2100008: spire
+    2100010: Shell
+    2300000: door arch
+    2300002: great_window
+    2300004: great_window001
+    2300006: House_main
+    2300008: Observation_window
+    2300010: small_window
+    2300012: small_window001
+    2300014: small_window002
+    2300016: small_window003
+    2300018: small_window004
+    2300020: small_window005
+    2300022: small_window006
+    2300024: small_window007
+    2300026: small_window008
+    2300028: small_window009
+    2300030: small_window010
+    2300032: small_window011
+    2300034: small_window012
+    2300036: small_window013
+    2300038: small_window014
+    2300040: small_window015
+    2300042: small_window016
+    2300044: small_window017
+    2300046: small_window018
+    2300048: small_window019
+    2300050: small_window020
+    2300052: small_window021
+    2300054: small_window022
+    2300056: small_window023
+    2300058: spire
+    2300060: spire001
+    2300062: spire002
+    2300064: spire003
+    2300066: spire004
+    2300068: spire005
+    3300000: door arch
+    3300002: great_window
+    3300004: great_window001
+    3300006: House_main
+    3300008: Observation_window
+    3300010: small_window
+    3300012: small_window001
+    3300014: small_window002
+    3300016: small_window003
+    3300018: small_window004
+    3300020: small_window005
+    3300022: small_window006
+    3300024: small_window007
+    3300026: small_window008
+    3300028: small_window009
+    3300030: small_window010
+    3300032: small_window011
+    3300034: small_window012
+    3300036: small_window013
+    3300038: small_window014
+    3300040: small_window015
+    3300042: small_window016
+    3300044: small_window017
+    3300046: small_window018
+    3300048: small_window019
+    3300050: small_window020
+    3300052: small_window021
+    3300054: small_window022
+    3300056: small_window023
+    3300058: spire
+    3300060: spire001
+    3300062: spire002
+    3300064: spire003
+    3300066: spire004
+    3300068: spire005
+    4300000: door arch
+    4300002: great_window
+    4300004: great_window001
+    4300006: Observation_window
+    4300008: small_window
+    4300010: small_window001
+    4300012: small_window002
+    4300014: small_window003
+    4300016: small_window004
+    4300018: small_window005
+    4300020: small_window006
+    4300022: small_window007
+    4300024: small_window008
+    4300026: small_window009
+    4300028: small_window010
+    4300030: small_window011
+    4300032: small_window012
+    4300034: small_window013
+    4300036: small_window014
+    4300038: small_window015
+    4300040: small_window016
+    4300042: small_window017
+    4300044: small_window018
+    4300046: small_window019
+    4300048: small_window020
+    4300050: small_window021
+    4300052: small_window022
+    4300054: small_window023
+    4300056: spire
+    4300058: spire001
+    4300060: spire002
+    4300062: spire003
+    4300064: spire004
+    4300066: spire005
+    4300068: House_main
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Front Door
+    second: {fileID: 2100000, guid: d97bfd4beca9e55458d090bed55f8eab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Great Windows
+    second: {fileID: 2100000, guid: 4de8f12965c1ac148b4c737bec37c475, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Obs Window
+    second: {fileID: 2100000, guid: 273040819c32a754f844d38f7a4e010c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shell
+    second: {fileID: 2100000, guid: 7219e9679cc826849a9d4f12284cf444, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Small Window
+    second: {fileID: 2100000, guid: 5087f4ae215b8194fb7b788d87b52bca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: spire
+    second: {fileID: 2100000, guid: c192794758af749478d00ca8cee181f0, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

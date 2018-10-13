@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Data;
 using Mono.Data.Sqlite;
+using UnityEngine.UI;
 
 public class SqliteExample : MonoBehaviour {
 
     private string dbPath;
+    public Text displayText;
 
     // Use this for initialization
     void Start ()
     {
         dbPath = "URI=file:" + Application.persistentDataPath + "/exampleDatabase.db";
+
+        displayText.text = "Sql Database Test Text \r\n\r\n";
         CreateSchema();
         InsertScore("GG Meade", 3701);
         InsertScore("US Grant", 4242);
@@ -35,7 +39,7 @@ public class SqliteExample : MonoBehaviour {
                                   ");";
 
                 var result = cmd.ExecuteNonQuery();
-                Debug.Log("create schema: " + result);
+                displayText.text += "create schema: " + result + "\r\n";
             }
         }
     }
@@ -64,7 +68,7 @@ public class SqliteExample : MonoBehaviour {
                 });
 
                 var result = cmd.ExecuteNonQuery();
-                Debug.Log("insert score: " + result);
+                displayText.text += "insert score: " + result + "\r\n";
             }
         }
     }
@@ -85,7 +89,7 @@ public class SqliteExample : MonoBehaviour {
                     Value = limit
                 });
 
-                Debug.Log("scores (begin)");
+                displayText.text += "scores (begin)\r\n";
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -93,9 +97,9 @@ public class SqliteExample : MonoBehaviour {
                     var highScoreName = reader.GetString(1);
                     var score = reader.GetInt32(2);
                     var text = string.Format("{0}: {1} [#{2}]", highScoreName, score, id);
-                    Debug.Log(text);
+                    displayText.text += text + "\r\n";
                 }
-                Debug.Log("scores (end)");
+                displayText.text += "scores (end)\r\n";
             }
 
             using (var command = conn.CreateCommand())
@@ -107,8 +111,16 @@ public class SqliteExample : MonoBehaviour {
                 while (reader.Read())
                 {
                     var itemCount = reader.GetInt32(0);
-                    Debug.Log("There are " + itemCount + " items in the database.");
-                }            
+                    displayText.text += "There are " + itemCount + " items in the database.\r\n";
+                }
+            }
+
+            using (var cmd1 = conn.CreateCommand())
+            {
+                cmd1.CommandType = CommandType.Text;
+                cmd1.CommandText = "DELETE FROM high_score";
+
+                var result = cmd1.ExecuteNonQuery();
             }
         }
     }
